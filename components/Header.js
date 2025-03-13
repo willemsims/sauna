@@ -10,12 +10,16 @@ import config from "@/config";
 
 const links = [
   {
-    href: "/#pricing",
-    label: "Pricing",
+    href: "/#browse-locations",
+    label: "Find a sauna",
   },
   {
-    href: "/#testimonials",
-    label: "Reviews",
+    href: "/about",
+    label: "About",
+  },
+  {
+    href: "/blog",
+    label: "Blog",
   },
   {
     href: "/#faq",
@@ -23,9 +27,7 @@ const links = [
   },
 ];
 
-const cta = <ButtonSignin extraStyle="btn-primary" />;
-
-// A header with a logo on the left, links in the center (like Pricing, etc...), and a CTA (like Get Started or Login) on the right.
+// A header with a logo on the left, links in the center (like Pricing, etc...)
 // The header is responsive, and on mobile, the links are hidden behind a burger button.
 const Header = () => {
   const searchParams = useSearchParams();
@@ -45,9 +47,9 @@ const Header = () => {
         {/* Your logo/name on large screens */}
         <div className="flex lg:flex-1">
           <Link
-            className="flex items-center gap-2 shrink-0 "
+            className="flex items-center gap-2 shrink-0"
             href="/"
-            title={`${config.appName} hompage`}
+            title={`${config.appName} homepage`}
           >
             <Image
               src={logo}
@@ -58,7 +60,9 @@ const Header = () => {
               width={32}
               height={32}
             />
-            <span className="font-extrabold text-lg">{config.appName}</span>
+            <span className="font-extrabold text-lg max-w-20 break-words leading-none">
+              {config.appName}
+            </span>
           </Link>
         </div>
         {/* Burger button to open menu on mobile */}
@@ -99,9 +103,6 @@ const Header = () => {
             </Link>
           ))}
         </div>
-
-        {/* CTA on large screens */}
-        <div className="hidden lg:flex lg:justify-end lg:flex-1">{cta}</div>
       </nav>
 
       {/* Mobile menu, show/hide based on menu state. */}
@@ -112,7 +113,7 @@ const Header = () => {
           {/* Your logo/name on small screens */}
           <div className="flex items-center justify-between">
             <Link
-              className="flex items-center gap-2 shrink-0 "
+              className="flex items-center gap-2 shrink-0 max-w-20 break-words leading-tight"
               title={`${config.appName} hompage`}
               href="/"
             >
@@ -167,8 +168,6 @@ const Header = () => {
               </div>
             </div>
             <div className="divider"></div>
-            {/* Your CTA on small screens */}
-            <div className="flex flex-col">{cta}</div>
           </div>
         </div>
       </div>
