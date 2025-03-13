@@ -44,7 +44,7 @@ const locationData = {
     cities: {
       vancouver: {
         name: "Vancouver",
-        image: "/cities/vancouver.jpg",
+        image: "/images/cities/vancouver.jpeg",
         saunas: [
           { id: "v1", name: "Pacific Sauna", rating: 4.7, type: "Finnish" },
           { id: "v2", name: "Stanley Park Sauna", rating: 4.6, type: "Infrared" },
@@ -53,7 +53,7 @@ const locationData = {
       },
       victoria: {
         name: "Victoria",
-        image: "/cities/victoria.jpg",
+        image: "/images/cities/victoria.jpeg",
         saunas: [
           { id: "vi1", name: "Victoria Harbor Sauna", rating: 4.5, type: "Finnish" },
           { id: "vi2", name: "Island Sauna Club", rating: 4.4, type: "Infrared" },
@@ -74,7 +74,7 @@ const locationData = {
     cities: {
       toronto: {
         name: "Toronto",
-        image: "/cities/toronto.jpg",
+        image: "/images/cities/toronto.jpeg",
         saunas: [
           { id: "t1", name: "Downtown Toronto Sauna", rating: 4.6, type: "Finnish" },
           { id: "t2", name: "Harbourfront Sauna", rating: 4.5, type: "Infrared" },
@@ -83,7 +83,7 @@ const locationData = {
       },
       ottawa: {
         name: "Ottawa",
-        image: "/cities/ottawa.jpg",
+        image: "/images/cities/ottawa.jpeg",
         saunas: [
           { id: "o1", name: "Parliament Hill Sauna", rating: 4.4, type: "Finnish" },
           { id: "o2", name: "Rideau Canal Sauna Club", rating: 4.3, type: "Infrared" },
@@ -147,9 +147,9 @@ export default function Home() {
 
   // Popular cities with saunas (for the featured section)
   const popularCities = [
-    { name: "Victoria", province: "british_columbia", slug: "victoria", image: "/cities/victoria.jpg" },
-    { name: "Vancouver", province: "british_columbia", slug: "vancouver", image: "/cities/vancouver.jpg" },
-    { name: "Toronto", province: "ontario", slug: "toronto", image: "/cities/toronto.jpg" },
+    { name: "Victoria", province: "british_columbia", slug: "victoria", image: "/images/cities/victoria.jpeg" },
+    { name: "Vancouver", province: "british_columbia", slug: "vancouver", image: "/images/cities/vancouver.jpeg" },
+    { name: "Toronto", province: "ontario", slug: "toronto", image: "/images/cities/toronto.jpeg" },
   ];
 
   return (
@@ -179,7 +179,7 @@ export default function Home() {
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
             {popularCities.map((city) => (
               <div key={`${city.province}-${city.slug}`} className="group">
-                <div className="relative overflow-hidden rounded-lg border transition-all hover:shadow-md h-64">
+                <div className="relative overflow-hidden transition-all hover:shadow-md h-64">
                   <Image
                     src={locationData[city.province].cities[city.slug].image}
                     alt={`${city.name}, ${formatProvinceName(city.province)}`}
@@ -326,8 +326,9 @@ export default function Home() {
 
         {/* FAQ Section */}
         <section id="faq" className="container px-4 py-12 md:px-6 max-w-7xl mx-auto">
-          <FAQ title="Frequently Asked Questions" />
-        </section>
+  <h2 className="text-2xl font-bold tracking-tight mb-6">Frequently Asked Questions</h2>
+  <FAQ />
+</section>
       </main>
       
       <Footer />

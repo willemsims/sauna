@@ -63,7 +63,7 @@ const Item = ({ item }) => {
   );
 };
 
-const FAQ = ({ title }) => {
+const FAQ = () => {
   // Define the FAQ questions and answers directly in the component
   const questions = [
     {
@@ -109,18 +109,13 @@ const FAQ = ({ title }) => {
   ];
 
   return (
-    <section className="bg-base-100" id="faq">
-      <div className="py-8 px-8 max-w-7xl mx-auto">
-        {title && <h2 className="text-2xl font-bold tracking-tight mb-12">{title}</h2>}
-        <div className="max-w-4xl mx-auto">
-          <ul>
-            {questions.map((item, i) => (
-              <Item key={i} item={item} />
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
+    <div className="max-w-4xl mx-auto">
+      <ul>
+        {questions.map((item, i) => (
+          <Item key={i} item={item} />
+        ))}
+      </ul>
+    </div>
   );
 };
 
