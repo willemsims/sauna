@@ -85,9 +85,9 @@ const FAQ = ({ textColor = "text-base-content" }) => {
     {
       question: "Should you sauna when you're sick?",
       answer: <div>
-        <p>A mild sauna session might feel comforting when you're sick, but it's important to remember that, <strong>like exercise, saunas are a physical stressor on the body</strong>.</p>
+        <p>A mild sauna session might feel comforting when you&apos;re sick, but it&apos;s important to remember that, <strong>like exercise, saunas are a physical stressor on the body</strong>.</p>
         <br />
-        <p>When you're ill, rest and recovery should be the priority. <strong>It's best to wait until you're feeling better</strong> before using the sauna.</p>
+        <p>When you&apos;re ill, rest and recovery should be the priority. <strong>It&apos;s best to wait until you&apos;re feeling better</strong> before using the sauna.</p>
       </div>,
     }
   ];
