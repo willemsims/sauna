@@ -382,9 +382,13 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="container px-4 py-12 md:px-6 max-w-7xl mx-auto">
-          <h2 className="text-2xl font-bold tracking-tight mb-6">Frequently Asked Questions</h2>
-          <FAQ />
+        <section id="faq" className="w-full bg-[#1a1a1a] py-12 md:py-16">
+          <div className="container px-4 md:px-6 max-w-7xl mx-auto">
+            <h2 className="text-2xl font-bold tracking-tight mb-6 text-white">
+              Frequently Asked <span className="text-[#ad8f68]">Questions</span>
+            </h2>
+            <FAQ textColor="text-white" />
+          </div>
         </section>
       </main>
       
