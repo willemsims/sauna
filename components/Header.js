@@ -4,25 +4,25 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import ButtonSignin from "./ButtonSignin";
 import logo from "@/app/icon.png";
 import config from "@/config";
 
 const links = [
   {
-    href: "/#browse-locations",
+    id: "browse-locations",
     label: "Find a sauna",
   },
+  // About and Blog links temporarily removed
+  // {
+  //   href: "/about",
+  //   label: "About",
+  // },
+  // {
+  //   href: "/blog",
+  //   label: "Blog",
+  // },
   {
-    href: "/about",
-    label: "About",
-  },
-  {
-    href: "/blog",
-    label: "Blog",
-  },
-  {
-    href: "/#faq",
+    id: "faq",
     label: "FAQ",
   },
 ];
@@ -38,6 +38,15 @@ const Header = () => {
     setIsOpen(false);
   }, [searchParams]);
 
+  // Smooth scroll to section
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsOpen(false); // Close mobile menu if open
+  };
+
   return (
     <header className="bg-base-200">
       <nav
@@ -46,26 +55,31 @@ const Header = () => {
       >
         {/* Your logo/name on large screens */}
         <div className="flex lg:flex-1">
-          <Link
+          <button
             className="flex items-center gap-2 shrink-0"
-            href="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             title={`${config.appName} homepage`}
           >
-            <Image
-              src={logo}
-              alt={`${config.appName} logo`}
-              className="w-8"
-              placeholder="blur"
-              priority={true}
-              width={32}
-              height={32}
-            />
-            <span className="font-extrabold text-lg max-w-20 break-words leading-none">
-              {config.appName}
-            </span>
-          </Link>
+            <Image src={logo} alt="Logo" className="w-8 h-8" />
+            <span className="font-extrabold text-lg">{config.appName}</span>
+          </button>
         </div>
-        {/* Burger button to open menu on mobile */}
+
+        {/* Your links on large screens */}
+        <div className="hidden lg:flex lg:gap-x-8">
+          {links.map((link) => (
+            <button
+              key={link.id}
+              className="link link-hover"
+              onClick={() => scrollToSection(link.id)}
+              title={link.label}
+            >
+              {link.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Burger menu on small screens */}
         <div className="flex lg:hidden">
           <button
             type="button"
@@ -79,7 +93,7 @@ const Header = () => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-6 h-6 text-base-content"
+              className="w-6 h-6"
             >
               <path
                 strokeLinecap="round"
@@ -89,45 +103,26 @@ const Header = () => {
             </svg>
           </button>
         </div>
-
-        {/* Your links on large screens */}
-        <div className="hidden lg:flex lg:justify-center lg:gap-12 lg:items-center">
-          {links.map((link) => (
-            <Link
-              href={link.href}
-              key={link.href}
-              className="link link-hover"
-              title={link.label}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
       </nav>
 
       {/* Mobile menu, show/hide based on menu state. */}
       <div className={`relative z-50 ${isOpen ? "" : "hidden"}`}>
         <div
-          className={`fixed inset-y-0 right-0 z-10 w-full px-8 py-4 overflow-y-auto bg-base-200 sm:max-w-sm sm:ring-1 sm:ring-neutral/10 transform origin-right transition ease-in-out duration-300`}
+          className={`fixed inset-y-0 right-0 z-10 w-full px-8 py-4 overflow-y-auto bg-base-100 sm:max-w-sm sm:ring-1 sm:ring-neutral/10`}
         >
           {/* Your logo/name on small screens */}
           <div className="flex items-center justify-between">
-            <Link
-              className="flex items-center gap-2 shrink-0 max-w-20 break-words leading-tight"
-              title={`${config.appName} hompage`}
-              href="/"
+            <button
+              className="flex items-center gap-2 shrink-0"
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setIsOpen(false);
+              }}
+              title={`${config.appName} homepage`}
             >
-              <Image
-                src={logo}
-                alt={`${config.appName} logo`}
-                className="w-8"
-                placeholder="blur"
-                priority={true}
-                width={32}
-                height={32}
-              />
+              <Image src={logo} alt="Logo" className="w-8 h-8" />
               <span className="font-extrabold text-lg">{config.appName}</span>
-            </Link>
+            </button>
             <button
               type="button"
               className="-m-2.5 rounded-md p-2.5"
@@ -156,14 +151,14 @@ const Header = () => {
             <div className="py-4">
               <div className="flex flex-col gap-y-4 items-start">
                 {links.map((link) => (
-                  <Link
-                    href={link.href}
-                    key={link.href}
+                  <button
+                    key={link.id}
                     className="link link-hover"
+                    onClick={() => scrollToSection(link.id)}
                     title={link.label}
                   >
                     {link.label}
-                  </Link>
+                  </button>
                 ))}
               </div>
             </div>

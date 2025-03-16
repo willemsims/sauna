@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FAQ from "@/components/FAQ";
 import SaunaCard from "@/components/SaunaCard";
+import Hero from "@/components/Hero";
 
 export default function Home() {
   const [locationData, setLocationData] = useState({});
@@ -15,6 +16,7 @@ export default function Home() {
   const [saunas, setSaunas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [featuredSauna, setFeaturedSauna] = useState(null);
   
   // Fetch provinces and cities data
   useEffect(() => {
@@ -30,6 +32,25 @@ export default function Home() {
     }
     
     fetchLocationData();
+  }, []);
+  
+  // Fetch featured sauna
+  useEffect(() => {
+    async function fetchFeaturedSauna() {
+      try {
+        console.log("Fetching featured sauna...");
+        const response = await fetch('/api/featured-sauna');
+        const data = await response.json();
+        console.log("Featured sauna data:", data);
+        if (data) {
+          setFeaturedSauna(data);
+        }
+      } catch (error) {
+        console.error('Error fetching featured sauna:', error);
+      }
+    }
+    
+    fetchFeaturedSauna();
   }, []);
   
   // Set the first province as selected once data is loaded
@@ -77,6 +98,44 @@ export default function Home() {
     }
   }, []);
 
+  // Listen for featured sauna selection
+  useEffect(() => {
+    const handleFeaturedSaunaSelected = (event) => {
+      const { province, city } = event.detail;
+      
+      // Set the selected province
+      setSelectedProvince(province);
+      
+      // We need to wait for the province selection to update before setting the city
+      setTimeout(() => {
+        setSelectedCity(city);
+      }, 100);
+    };
+    
+    // Check localStorage on mount for any saved selections
+    const savedProvince = localStorage.getItem('selectedProvince');
+    const savedCity = localStorage.getItem('selectedCity');
+    
+    if (savedProvince && dataLoaded) {
+      setSelectedProvince(savedProvince);
+      
+      if (savedCity) {
+        setTimeout(() => {
+          setSelectedCity(savedCity);
+          // Clear localStorage after using the values
+          localStorage.removeItem('selectedProvince');
+          localStorage.removeItem('selectedCity');
+        }, 100);
+      }
+    }
+    
+    window.addEventListener('featuredSaunaSelected', handleFeaturedSaunaSelected);
+    
+    return () => {
+      window.removeEventListener('featuredSaunaSelected', handleFeaturedSaunaSelected);
+    };
+  }, [dataLoaded]);
+
   // Helper function to format province names
   const formatProvinceName = (province) => {
     return province
@@ -100,46 +159,55 @@ export default function Home() {
       </Suspense>
       
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="w-full py-12 md:py-24 bg-gradient-to-b from-base-200 to-base-100">
-          <div className="container px-4 md:px-6 max-w-7xl mx-auto">
-            <div className="flex flex-col items-center gap-4 text-center">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Find a Sauna Near You
-              </h1>
-              <p className="max-w-[700px] text-base-content/70 md:text-xl">
-                Discover top-rated saunas across Canada. From traditional Finnish saunas to infrared saunas to modern spa experiences.
-              </p>
-            </div>
-          </div>
-        </section>
+        <Hero featuredSauna={featuredSauna} />
 
         {/* Popular Cities Section */}
         {dataLoaded && (
-          <section className="container px-4 py-8 md:px-6 max-w-7xl mx-auto">
-            <h2 className="text-2xl font-bold tracking-tight mb-6">Popular Cities for Saunas</h2>
-            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-              {popularCities.map((city) => (
-                locationData[city.province]?.cities[city.slug] && (
-                  <div key={`${city.province}-${city.slug}`} className="group">
-                    <div className="relative overflow-hidden transition-all hover:shadow-md h-64">
-                      <Image
-                        src={city.image}
-                        alt={`${city.name}, ${formatProvinceName(city.province)}`}
-                        className="object-cover transition-transform group-hover:scale-105"
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        quality={85}
-                      />
-                      
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
-                        <h3 className="text-xl md:text-2xl font-bold text-white">{city.name}</h3>
-                        <p className="text-sm md:text-base text-white/90">{formatProvinceName(city.province)}</p>
+          <section className="w-full bg-[#1a1a1a] py-12 md:py-16">
+            <div className="container px-4 md:px-6 max-w-7xl mx-auto">
+              <h2 className="text-2xl font-bold tracking-tight mb-6 text-white">
+                Popular Cities for <span className="text-[#ad8f68]">Saunas</span>
+              </h2>
+              <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+                {popularCities.map((city) => (
+                  locationData[city.province]?.cities[city.slug] && (
+                    <div 
+                      key={`${city.province}-${city.slug}`} 
+                      className="group cursor-pointer"
+                      onClick={() => {
+                        // Set the selected province and city
+                        setSelectedProvince(city.province);
+                        // We need to wait for the province selection to update before setting the city
+                        setTimeout(() => {
+                          setSelectedCity(city.slug);
+                          // Scroll to the browse locations section
+                          document.getElementById('browse-locations').scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
+                      }}
+                    >
+                      <div className="relative h-48 overflow-hidden">
+                        <Image
+                          src={city.image || `/images/cities/${city.slug}.jpeg`}
+                          alt={`${locationData[city.province].cities[city.slug].name} Saunas`}
+                          className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                          width={400}
+                          height={300}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end">
+                          <div className="p-4">
+                            <h3 className="text-xl font-bold text-white">
+                              {locationData[city.province].cities[city.slug].name}
+                            </h3>
+                            <p className="text-white/80 text-sm">
+                              {locationData[city.province].name}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-              ))}
+                  )
+                ))}
+              </div>
             </div>
           </section>
         )}
@@ -185,20 +253,27 @@ export default function Home() {
                     <div className="border-l-2 border-base-300 pl-4">
                       <h3 className="text-xl font-semibold mb-4">Cities in {locationData[selectedProvince].name}</h3>
                       <ul className="space-y-2">
-                        {Object.keys(locationData[selectedProvince].cities).map((citySlug) => (
-                          <li key={citySlug}>
-                            <button
-                              onClick={() => setSelectedCity(citySlug)}
-                              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
-                                selectedCity === citySlug 
-                                  ? "bg-base-200 font-medium border-l-4 border-base-content" 
-                                  : "hover:bg-base-100 hover:border-l-4 hover:border-base-300"
-                              }`}
-                            >
-                              {locationData[selectedProvince].cities[citySlug].name}
-                            </button>
-                          </li>
-                        ))}
+                        {Object.keys(locationData[selectedProvince].cities)
+                          .sort((a, b) => {
+                            // Sort by city name alphabetically
+                            const cityA = locationData[selectedProvince].cities[a].name.toUpperCase();
+                            const cityB = locationData[selectedProvince].cities[b].name.toUpperCase();
+                            return cityA.localeCompare(cityB);
+                          })
+                          .map((citySlug) => (
+                            <li key={citySlug}>
+                              <button
+                                onClick={() => setSelectedCity(citySlug)}
+                                className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                                  selectedCity === citySlug 
+                                    ? "bg-base-200 font-medium border-l-4 border-base-content" 
+                                    : "hover:bg-base-100 hover:border-l-4 hover:border-base-300"
+                                }`}
+                              >
+                                {locationData[selectedProvince].cities[citySlug].name}
+                              </button>
+                            </li>
+                          ))}
                       </ul>
                     </div>
                   </div>
@@ -209,7 +284,7 @@ export default function Home() {
                   <div className="w-2/4">
                     <div className="border-l-2 border-base-300 pl-4">
                       <h3 className="text-xl font-semibold mb-4">
-                        Saunas in {locationData[selectedProvince].cities[selectedCity].name}
+                        Top Saunas in {locationData[selectedProvince].cities[selectedCity].name}
                       </h3>
                       
                       {loading ? (
@@ -261,11 +336,18 @@ export default function Home() {
                       onChange={(e) => setSelectedCity(e.target.value)}
                     >
                       <option value="" disabled>Choose a city</option>
-                      {Object.keys(locationData[selectedProvince].cities).map((citySlug) => (
-                        <option key={citySlug} value={citySlug}>
-                          {locationData[selectedProvince].cities[citySlug].name}
-                        </option>
-                      ))}
+                      {Object.keys(locationData[selectedProvince].cities)
+                        .sort((a, b) => {
+                          // Sort by city name alphabetically
+                          const cityA = locationData[selectedProvince].cities[a].name.toUpperCase();
+                          const cityB = locationData[selectedProvince].cities[b].name.toUpperCase();
+                          return cityA.localeCompare(cityB);
+                        })
+                        .map((citySlug) => (
+                          <option key={citySlug} value={citySlug}>
+                            {locationData[selectedProvince].cities[citySlug].name}
+                          </option>
+                        ))}
                     </select>
                   </div>
                 )}
@@ -274,7 +356,7 @@ export default function Home() {
                 {selectedProvince && selectedCity && locationData[selectedProvince]?.cities[selectedCity] && (
                   <div>
                     <h3 className="text-lg font-semibold mb-4">
-                      Saunas in {locationData[selectedProvince].cities[selectedCity].name}
+                      Top Saunas in {locationData[selectedProvince].cities[selectedCity].name}
                     </h3>
                     
                     {loading ? (

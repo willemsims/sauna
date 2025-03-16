@@ -57,9 +57,9 @@ const PrivacyPolicy = () => {
           className="leading-relaxed whitespace-pre-wrap"
           style={{ fontFamily: "sans-serif" }}
         >
-          {`Last Updated: 2023-08-25
+          {`Last Updated: ${new Date().toISOString().split('T')[0]}
 
-Thank you for visiting ShipFast ("we," "us," or "our"). This Privacy Policy outlines how we collect, use, and protect your personal and non-personal information when you use our website located at https://shipfa.st (the "Website").
+Thank you for visiting ${config.appName} ("we," "us," or "our"). This Privacy Policy outlines how we collect, use, and protect your personal and non-personal information when you use our website.
 
 By accessing or using the Website, you agree to the terms of this Privacy Policy. If you do not agree with the practices described in this policy, please do not use the Website.
 
@@ -69,9 +69,9 @@ By accessing or using the Website, you agree to the terms of this Privacy Policy
 
 We collect the following personal information from you:
 
-Name: We collect your name to personalize your experience and communicate with you effectively.
-Email: We collect your email address to send you important information regarding your orders, updates, and communication.
-Payment Information: We collect payment details to process your orders securely. However, we do not store your payment information on our servers. Payments are processed by trusted third-party payment processors.
+- Name: We collect your name to personalize your experience and communicate with you effectively.
+- Email: We collect your email address to send you important information regarding your account, updates, and communication.
+- Account Information: If you create an account, we store your login credentials and preferences.
 
 1.2 Non-Personal Data
 
@@ -79,15 +79,15 @@ We may use web cookies and similar technologies to collect non-personal informat
 
 2. Purpose of Data Collection
 
-We collect and use your personal data for the sole purpose of order processing. This includes processing your orders, sending order confirmations, providing customer support, and keeping you updated about the status of your orders.
+We collect and use your personal data to provide you with access to our sauna directory services, personalize your experience, improve our website functionality, and communicate with you about updates or changes to our service.
 
 3. Data Sharing
 
-We do not share your personal data with any third parties except as required for order processing (e.g., sharing your information with payment processors). We do not sell, trade, or rent your personal information to others.
+We do not share your personal data with any third parties except as required for website functionality (e.g., sharing your information with payment processors if applicable). We do not sell, trade, or rent your personal information to others.
 
 4. Children's Privacy
 
-ShipFast is not intended for children under the age of 13. We do not knowingly collect personal information from children. If you are a parent or guardian and believe that your child has provided us with personal information, please contact us at the email address provided below.
+${config.appName} is not intended for children under the age of 13. We do not knowingly collect personal information from children. If you are a parent or guardian and believe that your child has provided us with personal information, please contact us at the email address provided below.
 
 5. Updates to the Privacy Policy
 
@@ -95,13 +95,9 @@ We may update this Privacy Policy from time to time to reflect changes in our pr
 
 6. Contact Information
 
-If you have any questions, concerns, or requests related to this Privacy Policy, you can contact us at:
+If you have any questions, concerns, or requests related to this Privacy Policy, you can contact us through our website.
 
-Email: marc@shipfa.st
-
-For all other inquiries, please visit our Contact Us page on the Website.
-
-By using ShipFast, you consent to the terms of this Privacy Policy.`}
+By using ${config.appName}, you consent to the terms of this Privacy Policy.`}
         </pre>
       </div>
     </main>

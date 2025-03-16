@@ -57,39 +57,45 @@ const TOS = () => {
           className="leading-relaxed whitespace-pre-wrap"
           style={{ fontFamily: "sans-serif" }}
         >
-          {`Last Updated: September 26, 2023
+          {`Last Updated: ${new Date().toISOString().split('T')[0]}
 
-Welcome to ShipFast!
+Welcome to ${config.appName}!
 
-These Terms of Service ("Terms") govern your use of the ShipFast website at https://shipfa.st ("Website") and the services provided by ShipFast. By using our Website and services, you agree to these Terms.
+These Terms of Service ("Terms") govern your use of the ${config.appName} website ("Website") and the services provided. By using our Website and services, you agree to these Terms.
 
-1. Description of ShipFast
+1. Description of Service
 
-ShipFast is a platform that offers a JavaScript code boilerplate to assist entrepreneurs in launching their startups more efficiently.
+${config.appName} is a directory platform that helps users discover and learn about saunas in various locations. We provide information about sauna facilities, their features, locations, and other relevant details.
 
-2. Ownership and Usage Rights
+2. User Accounts
 
-When you purchase a package from ShipFast, you gain the right to download and use the code provided for creating applications. You own the code you create but do not have the right to resell it. We offer a full refund within 7 days of purchase, as specified in our refund policy.
+You may browse our directory without creating an account. However, certain features may require account registration. If you create an account, you are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.
 
-3. User Data and Privacy
+3. User Content
 
-We collect and store user data, including name, email, and payment information, as necessary to provide our services. For details on how we handle your data, please refer to our Privacy Policy at https://shipfa.st/privacy-policy.
+If our platform allows users to submit reviews, comments, or other content, you retain ownership of your content but grant us a non-exclusive, royalty-free license to use, display, and distribute your content in connection with our services.
 
-4. Non-Personal Data Collection
+4. Accuracy of Information
+
+While we strive to provide accurate and up-to-date information about sauna facilities, we cannot guarantee the accuracy, completeness, or reliability of any information on our platform. Sauna businesses are responsible for maintaining their own listing information.
+
+5. User Data and Privacy
+
+We collect and store user data as necessary to provide our services. For details on how we handle your data, please refer to our Privacy Policy.
+
+6. Non-Personal Data Collection
 
 We use web cookies to collect non-personal data for the purpose of improving our services and user experience.
 
-5. Governing Law
+7. Limitation of Liability
 
-These Terms are governed by the laws of France.
+${config.appName} is not responsible for the actions, content, information, or data of third parties. We are not liable for any damages or losses resulting from your use of our services or any listed sauna facilities.
 
-6. Updates to the Terms
+8. Updates to the Terms
 
-We may update these Terms from time to time. Users will be notified of any changes via email.
+We may update these Terms from time to time. Users will be notified of any significant changes via the website or email if applicable.
 
-For any questions or concerns regarding these Terms of Service, please contact us at marc@shipfa.st.
-
-Thank you for using ShipFast!`}
+Thank you for using ${config.appName}!`}
         </pre>
       </div>
     </main>

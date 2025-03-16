@@ -13,6 +13,11 @@ export const getSEOTags = ({
   canonicalUrlRelative,
   extraTags,
 } = {}) => {
+  // Create the canonical URL
+  const canonicalUrl = canonicalUrlRelative 
+    ? `https://${config.domainName}${canonicalUrlRelative}` 
+    : `https://${config.domainName}/`;
+    
   return {
     // up to 50 characters (what does your app do for the user?) > your main should be here
     title: title || config.appName,
@@ -54,10 +59,10 @@ export const getSEOTags = ({
       creator: "@marc_louvion",
     },
 
-    // If a canonical URL is given, we add it. The metadataBase will turn the relative URL into a fully qualified URL
-    ...(canonicalUrlRelative && {
-      alternates: { canonical: canonicalUrlRelative },
-    }),
+    // Add canonical URL
+    alternates: {
+      canonical: canonicalUrl,
+    },
 
     // If you want to add extra tags, you can pass them here
     ...extraTags,

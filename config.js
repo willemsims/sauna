@@ -4,9 +4,9 @@ const config = {
   // REQUIRED
   appName: "SAUNA TOURIST",
   // REQUIRED: a short description of your app for SEO tags (can be overwritten)
-  appDescription: "Find top rated saunas near you.",
+  appDescription: "Find the best saunas near you in Canada. Browse Finnish, infrared, and steam saunas by location with ratings and reviews. Your ultimate Canadian sauna directory.",
   // REQUIRED (no https://, not trialing slash at the end, just the naked domain)
-  domainName: "shipfa.st",
+  domainName: "saunatourist.com",
   crisp: {
     // Crisp website ID. IF YOU DON'T USE CRISP: just remove this => Then add a support email in this config file (resend.supportEmail) otherwise customer support won't work.
     id: "",

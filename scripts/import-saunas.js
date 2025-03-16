@@ -70,6 +70,7 @@ async function importSaunas() {
       },
       workingHours: row.working_hours || '',
       popularTimes: row.popular_times || '',
+      featured: false,
       createdAt: new Date(),
       updatedAt: new Date()
     }));

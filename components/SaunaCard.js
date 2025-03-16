@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const SaunaCard = ({ sauna }) => {
   return (
-    <div className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+    <div className="border overflow-hidden hover:shadow-md transition-shadow">
       {/* Sauna Image */}
       <div className="relative h-48 w-full">
         <Image
