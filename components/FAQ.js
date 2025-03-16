@@ -55,7 +55,7 @@ const Item = ({ item, textColor = "text-base-content" }) => {
             : { maxHeight: 0, opacity: 0 }
         }
       >
-        <div className={`pb-5 ${textColor}/80`}>{item?.answer}</div>
+        <div className={`pb-5 ${textColor}/80`} dangerouslySetInnerHTML={{ __html: item?.answer }}></div>
       </div>
     </li>
   );
@@ -65,30 +65,24 @@ const FAQ = ({ textColor = "text-base-content" }) => {
   // Define the FAQ questions and answers directly in the component
   const questions = [
     {
-      question: "What is a sauna?",
-      answer:
-        "A sauna is a small room or building designed to experience dry or wet heat sessions. Saunas can help people relax and may have health benefits such as improved circulation, reduced stress, and muscle relaxation.",
+      question: "Sauna vs steam room",
+      answer: "While both provide heat therapy, saunas and steam rooms differ in humidity levels and heat transfer. <strong>Saunas use dry heat</strong>, whereas <strong>steam rooms use moist heat</strong>. <br /><br /> Steam rooms often feel hotter than saunas because water retains and transfers heat more efficiently than air. This is why a 60°C (140°F) sauna feels relatively mild, while water at the same temperature would scald your skin within seconds."
     },
     {
-      question: "What are the different types of saunas?",
-      answer:
-        "There are several types of saunas including traditional Finnish saunas (dry heat), steam saunas (wet heat), infrared saunas (uses light waves for heat), and smoke saunas (traditional Finnish method where smoke from a wood fire heats the room).",
+      question: "How long should I stay in a sauna?",
+      answer: "For most people, <strong>5 to 20 minutes per session</strong> is a safe starting point and enough to experience benefits such as improved cardiovascular health, mood, and stress resilience.<br /><br />A 2018 study found that people who used a sauna <strong>4-7 times per week</strong> were <strong>50% less likely to die from a cardiovascular event</strong> compared to those who only went once per week! Participants in the study typically spent 5 to 20 minutes per session at temperatures ranging from 80°C (176°F) to 100°C (212°F)."
+    },
+    {
+      question: "Does the sauna burn calories?",
+      answer: "<strong>Yes, saunas can help burn calories.</strong> Sitting in a sauna increases your heart rate and stimulates your metabolism, causing your body to burn calories, similar to light activity.<br /><br />A 20-minute session can burn <strong>30-100 calories</strong>, depending on body weight and temperature."
     },
     {
       question: "How hot is a sauna?",
-      answer: <div>
-        <p>Saunas typically range from <strong>80°C (176°F) to 100°C (212°F)</strong>. Temperature is typically measured at the ceiling—since heat rises.</p>
-        <br />
-        <p>The temperature on different bench levels can vary significantly, with the lowest bench often being <strong>10-20°C (18-36°F) cooler</strong> than the top bench.</p>
-      </div>,
+      answer: "Saunas typically range from <strong>80°C (176°F) to 100°C (212°F)</strong>. Temperature is typically measured at the ceiling—since heat rises.<br /><br />The temperature on different bench levels can vary significantly, with the lowest bench often being <strong>10-20°C (18-36°F) cooler</strong> than the top bench."
     },
     {
       question: "Should you sauna when you're sick?",
-      answer: <div>
-        <p>A mild sauna session might feel comforting when you&apos;re sick, but it&apos;s important to remember that, <strong>like exercise, saunas are a physical stressor on the body</strong>.</p>
-        <br />
-        <p>When you&apos;re ill, rest and recovery should be the priority. <strong>It&apos;s best to wait until you&apos;re feeling better</strong> before using the sauna.</p>
-      </div>,
+      answer: "A mild sauna session might feel comforting when you&apos;re sick, but it&apos;s important to remember that, <strong>like exercise, saunas are a physical stressor on the body</strong>.<br /><br />When you&apos;re ill, rest and recovery should be the priority. <strong>It&apos;s best to wait until you&apos;re feeling better</strong> before using the sauna."
     }
   ];
 
