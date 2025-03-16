@@ -24,12 +24,6 @@ const SaunaCard = ({ sauna }) => {
           <span className="text-sm text-gray-500 ml-1">({sauna.reviewCount} reviews)</span>
         </div>
         
-        {/* Type */}
-        <p className="text-sm mb-2">{sauna.type} Sauna</p>
-        
-        {/* Description */}
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">{sauna.description}</p>
-        
         {/* Contact Info */}
         <div className="text-sm text-gray-700 mb-1">{sauna.address}</div>
         <div className="text-sm text-gray-700 mb-2">{sauna.phone}</div>
