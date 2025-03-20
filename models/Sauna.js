@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
 const SaunaSchema = new mongoose.Schema(
   {
@@ -82,8 +82,9 @@ const SaunaSchema = new mongoose.Schema(
       default: [],
     },
     featured: {
-      type: Boolean,
-      default: false,
+      type: String,
+      enum: ['Y', 'N', ''],
+      default: '',
     },
     createdAt: {
       type: Date,
@@ -92,14 +93,92 @@ const SaunaSchema = new mongoose.Schema(
     updatedAt: {
       type: Date,
       default: Date.now,
-    }
+    },
+    postalCode: {
+      type: String,
+    },
+    email: {
+      type: String,
+    },
+    priceRange: {
+      type: String,
+      enum: ['$', '$$', '$$$', '$$$$'],
+      default: '$$',
+    },
+    hours: {
+      monday: { open: String, close: String },
+      tuesday: { open: String, close: String },
+      wednesday: { open: String, close: String },
+      thursday: { open: String, close: String },
+      friday: { open: String, close: String },
+      saturday: { open: String, close: String },
+      sunday: { open: String, close: String },
+    },
+    traditional: {
+      type: String,
+      enum: ['Y', 'N', ''],
+      default: '',
+    },
+    wood: {
+      type: String,
+      enum: ['Y', 'N', ''],
+      default: '',
+    },
+    infrared: {
+      type: String,
+      enum: ['Y', 'N', ''],
+      default: '',
+    },
+    hot_tub: {
+      type: String,
+      enum: ['Y', 'N', ''],
+      default: '',
+    },
+    cold_plunge: {
+      type: String,
+      enum: ['Y', 'N', ''],
+      default: '',
+    },
+    steam: {
+      type: String,
+      enum: ['Y', 'N', ''],
+      default: '',
+    },
+    private: {
+      type: String,
+      enum: ['Y', 'N', ''],
+      default: '',
+    },
+    public: {
+      type: String,
+      enum: ['Y', 'N', ''],
+      default: '',
+    },
+    mobile: {
+      type: String,
+      enum: ['Y', 'N', ''],
+      default: '',
+    },
+    gay: {
+      type: String,
+      enum: ['Y', 'N', ''],
+      default: '',
+    },
   },
   {
     timestamps: true,
+    collection: 'saunas'
   }
 );
 
 // Add geospatial index for location-based queries
 SaunaSchema.index({ location: "2dsphere" });
 
-export default mongoose.models.Sauna || mongoose.model("Sauna", SaunaSchema); 
+// Update the updatedAt field on save
+SaunaSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+// Export for both CommonJS and ES modules
+module.exports = mongoose.models.Sauna || mongoose.model("Sauna", SaunaSchema, 'saunas'); 

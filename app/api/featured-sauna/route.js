@@ -1,35 +1,37 @@
-import { MongoClient } from 'mongodb';
 import { NextResponse } from 'next/server';
+import dbConnect from '@/libs/dbConnect';
+import Sauna from '@/models/Sauna';
 
 export async function GET() {
   try {
-    const client = new MongoClient(process.env.MONGODB_URI);
-    await client.connect();
-    const db = client.db(process.env.MONGODB_DB || 'sauna-finder');
+    await dbConnect();
     
-    // Find a sauna that is marked as featured
-    let featuredSauna = await db.collection("saunas")
-      .findOne(
-        { featured: true }, // Look for saunas with featured: true
-        { sort: { rating: -1, reviewCount: -1 } } // If multiple, prioritize by rating and review count
-      );
+    // First try to find a sauna marked as featured
+    let featuredSauna = await Sauna.findOne({ featured: 'Y' }).select(
+      'name address city province postalCode country phone website photoUrl rating reviewCount ' +
+      'traditional wood infrared hot_tub cold_plunge steam private public mobile gay'
+    );
     
-    // If no featured sauna is found, fall back to highest rated
+    // If no featured sauna is found, fall back to the highest rated one
     if (!featuredSauna) {
-      console.log("No featured sauna found, falling back to highest rated");
-      featuredSauna = await db.collection("saunas")
-        .findOne(
-          {}, // Any sauna
-          { sort: { rating: -1, reviewCount: -1 } } // Sort by rating and review count
+      console.log('No featured sauna found, falling back to highest rated');
+      
+      featuredSauna = await Sauna.findOne({})
+        .sort({ rating: -1, reviewCount: -1 })
+        .select(
+          'name address city province postalCode country phone website photoUrl rating reviewCount ' +
+          'traditional wood infrared hot_tub cold_plunge steam private public mobile gay'
         );
+    } else {
+      console.log(`Featured sauna found: ${featuredSauna.name}`);
     }
     
-    console.log("Featured sauna found:", featuredSauna ? featuredSauna.name : "None");
-    
-    await client.close();
     return NextResponse.json(featuredSauna);
   } catch (error) {
-    console.error("Error fetching featured sauna:", error);
-    return NextResponse.json(null, { status: 500 });
+    console.error('Error fetching featured sauna:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch featured sauna' },
+      { status: 500 }
+    );
   }
 } 

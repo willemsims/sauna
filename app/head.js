@@ -10,6 +10,9 @@ export default function Head() {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/favicon.ico" />
       
+      {/* Mobile status bar color */}
+      <meta name="theme-color" content="#1a1a1a" />
+      
       {/* Preconnect to domains you'll fetch from */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

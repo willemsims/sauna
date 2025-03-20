@@ -70,7 +70,7 @@ const Hero = ({ featuredSauna }) => {
             </p>
             <button 
               onClick={scrollToBrowse}
-              className="inline-block bg-[#1a1a1a] text-white font-medium py-3 px-6 rounded-md hover:bg-black transition-colors"
+              className="inline-block bg-secondary text-white font-medium py-3 px-6 rounded-sm hover:bg-black transition-colors"
             >
               Find a Sauna
             </button>

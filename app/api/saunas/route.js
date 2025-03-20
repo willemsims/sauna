@@ -1,34 +1,69 @@
-import { MongoClient } from 'mongodb';
+import { NextResponse } from 'next/server';
+import dbConnect from '@/libs/dbConnect';
+import Sauna from '@/models/Sauna';
+
+// Wilson Score calculation function
+function calculateWilsonScore(rating, reviewCount) {
+  if (reviewCount === 0) return 0;
+  const z = 1.96; // 95% confidence
+  const p = rating / 5; // Convert 5-star rating to percentage
+  const n = reviewCount;
+  
+  // Wilson Score calculation
+  const numerator = p + z*z/(2*n) - z * Math.sqrt((p*(1-p) + z*z/(4*n))/n);
+  const denominator = 1 + z*z/n;
+  
+  return numerator / denominator;
+}
 
 export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const province = searchParams.get('province');
-  const city = searchParams.get('city');
-  
-  const client = new MongoClient(process.env.MONGODB_URI);
-  
   try {
-    await client.connect();
-    const database = client.db('sauna-finder');
-    const saunasCollection = database.collection('saunas');
+    await dbConnect();
     
-    // Build query based on parameters
+    // Get query parameters
+    const { searchParams } = new URL(request.url);
+    const city = searchParams.get('city');
+    const province = searchParams.get('province');
+    
+    // Build query
     const query = {};
-    if (province) query.province = province;
-    if (city) query.city = city;
     
-    const saunas = await saunasCollection.find(query).toArray();
+    // Handle multi-word city and province names
+    if (city) {
+      // Convert underscores to spaces and ensure lowercase
+      const formattedCity = city.toLowerCase().replace(/_/g, ' ');
+      query.city = formattedCity;
+    }
     
-    return new Response(JSON.stringify(saunas), {
-      headers: { 'Content-Type': 'application/json' },
-      status: 200
+    if (province) {
+      // Convert underscores to spaces and ensure lowercase
+      const formattedProvince = province.toLowerCase().replace(/_/g, ' ');
+      query.province = formattedProvince;
+    }
+    
+    console.log('Query:', query); // Debug the query
+    
+    // Find saunas matching the query
+    const saunas = await Sauna.find(query).select(
+      'name address city province postalCode country phone website photoUrl rating reviewCount ' +
+      'traditional wood infrared hot_tub cold_plunge steam private public mobile gay'
+    );
+    
+    console.log(`Found ${saunas.length} saunas for query:`, query); // Debug the results
+    
+    // Sort saunas by Wilson score (combination of rating and review count)
+    saunas.sort((a, b) => {
+      const scoreA = calculateWilsonScore(a.rating, a.reviewCount);
+      const scoreB = calculateWilsonScore(b.rating, b.reviewCount);
+      return scoreB - scoreA;
     });
+    
+    return NextResponse.json(saunas);
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      headers: { 'Content-Type': 'application/json' },
-      status: 500
-    });
-  } finally {
-    await client.close();
+    console.error('Error fetching saunas:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch saunas' },
+      { status: 500 }
+    );
   }
 }

@@ -69,7 +69,7 @@ const Header = () => {
           {links.map((link) => (
             <button
               key={link.id}
-              className="link link-hover"
+              className="link link-hover font-semibold"
               onClick={() => scrollToSection(link.id)}
               title={link.label}
             >
@@ -152,7 +152,7 @@ const Header = () => {
                 {links.map((link) => (
                   <button
                     key={link.id}
-                    className="link link-hover"
+                    className="link link-hover font-bold"
                     onClick={() => scrollToSection(link.id)}
                     title={link.label}
                   >

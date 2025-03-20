@@ -1,94 +1,129 @@
+/**
+ * Import Saunas Script
+ * 
+ * This script imports sauna data from a CSV file into MongoDB.
+ * 
+ * To run this script:
+ * node scripts/import-saunas.js
+ * 
+ * Make sure:
+ * 1. Your .env file contains the MONGODB_URI variable
+ * 2. The CSV file exists at data/saunas.csv
+ */
+
 const fs = require('fs');
-const XLSX = require('xlsx');
-const { MongoClient } = require('mongodb');
 const path = require('path');
+const { parse } = require('csv-parse/sync');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
-// Load environment variables from .env.local
-dotenv.config({ path: '.env.local' });
+// Load environment variables
+dotenv.config();
 
-// Check if MongoDB URI is defined
-const uri = process.env.MONGODB_URI;
-if (!uri) {
-  console.error('ERROR: MONGODB_URI is not defined in your environment variables');
-  console.log('Please check your .env.local file in the project root with your MongoDB connection string:');
-  console.log('MONGODB_URI=mongodb+srv://yourusername:yourpassword@cluster0.mongodb.net/sauna-finder?retryWrites=true&w=majority');
-  process.exit(1);
+// Connect to MongoDB with the correct database name
+mongoose.connect(process.env.MONGODB_URI, {
+  dbName: 'sauna_tourist'  // Specify the database name here
+})
+  .then(() => console.log('Connected to MongoDB (sauna_tourist)'))
+  .catch(err => {
+    console.error('Error connecting to MongoDB:', err);
+    process.exit(1);
+  });
+
+// Import Sauna model - using CommonJS require
+const Sauna = require('../models/Sauna');
+
+// Function to safely format location names (lowercase and normalize spaces)
+function formatLocationName(name) {
+  if (!name) return '';
+  return name.toLowerCase().trim();
 }
 
-const client = new MongoClient(uri);
-
+// Function to import saunas from CSV
 async function importSaunas() {
   try {
-    // Check if Excel file exists
-    const filePath = path.join(process.cwd(), 'data', 'sauna-data.xlsx');
-    if (!fs.existsSync(filePath)) {
-      console.error(`ERROR: File not found: ${filePath}`);
-      process.exit(1);
+    // Read CSV file
+    const csvFilePath = path.resolve(process.cwd(), 'data', 'saunas.csv');
+    const fileContent = fs.readFileSync(csvFilePath, { encoding: 'utf-8' });
+    
+    // Parse CSV
+    const records = parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true
+    });
+    
+    console.log(`Found ${records.length} records in CSV file`);
+    
+    let successCount = 0;
+    let errorCount = 0;
+    
+    // Process each record
+    for (const record of records) {
+      try {
+        // Convert empty strings to null for certain fields
+        const processedRecord = {
+          name: record.name,
+          description: record.description || '',
+          address: record.address,
+          city: formatLocationName(record.city),
+          province: formatLocationName(record.province),
+          postalCode: record.postalCode || '',
+          country: record.country || 'Canada',
+          phone: record.phone || '',
+          email: record.email || '',
+          website: record.website || '',
+          photoUrl: record.photoUrl || '',
+          rating: parseFloat(record.rating) || 0,
+          reviewCount: parseInt(record.reviewCount) || 0,
+          priceRange: record.priceRange || '$$',
+          
+          // Process category fields - convert empty cells to empty strings
+          traditional: record.traditional === 'Y' ? 'Y' : (record.traditional === 'N' ? 'N' : ''),
+          wood: record.wood === 'Y' ? 'Y' : (record.wood === 'N' ? 'N' : ''),
+          infrared: record.infrared === 'Y' ? 'Y' : (record.infrared === 'N' ? 'N' : ''),
+          hot_tub: record.hot_tub === 'Y' ? 'Y' : (record.hot_tub === 'N' ? 'N' : ''),
+          cold_plunge: record.cold_plunge === 'Y' ? 'Y' : (record.cold_plunge === 'N' ? 'N' : ''),
+          steam: record.steam === 'Y' ? 'Y' : (record.steam === 'N' ? 'N' : ''),
+          private: record.private === 'Y' ? 'Y' : (record.private === 'N' ? 'N' : ''),
+          public: record.public === 'Y' ? 'Y' : (record.public === 'N' ? 'N' : ''),
+          mobile: record.mobile === 'Y' ? 'Y' : (record.mobile === 'N' ? 'N' : ''),
+          gay: record.gay === 'Y' ? 'Y' : (record.gay === 'N' ? 'N' : ''),
+          featured: record.featured === 'Y' ? 'Y' : (record.featured === 'N' ? 'N' : '')
+        };
+        
+        // Check if sauna already exists
+        const existingSauna = await Sauna.findOne({ 
+          name: processedRecord.name,
+          city: processedRecord.city
+        });
+        
+        if (existingSauna) {
+          // Update existing sauna without logging details
+          await Sauna.findByIdAndUpdate(existingSauna._id, processedRecord);
+          successCount++;
+        } else {
+          // Create new sauna without logging details
+          await Sauna.create(processedRecord);
+          successCount++;
+        }
+        
+        // Show progress every 50 records
+        if (successCount % 50 === 0) {
+          console.log(`Progress: ${successCount}/${records.length} records processed`);
+        }
+      } catch (recordError) {
+        console.error(`Error processing record: ${record.name || 'Unknown'}`, recordError.message);
+        errorCount++;
+      }
     }
     
-    console.log('Connecting to MongoDB...');
-    await client.connect();
-    console.log('Connected to MongoDB');
-    
-    const database = client.db('sauna-finder');
-    const saunasCollection = database.collection('saunas');
-    
-    // Clear existing data (optional)
-    await saunasCollection.deleteMany({});
-    console.log('Cleared existing data');
-    
-    // Read Excel file
-    console.log(`Reading Excel file from: ${filePath}`);
-    const workbook = XLSX.readFile(filePath);
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
-    
-    // Convert to JSON
-    const data = XLSX.utils.sheet_to_json(worksheet);
-    console.log(`Found ${data.length} rows in Excel file`);
-    
-    // Transform data to match our schema
-    const saunas = data.map(row => ({
-      name: row.name || '',
-      address: row.full_address || '',
-      phone: row.phone || '',
-      website: row.site || '',
-      rating: parseFloat(row.rating) || 0,
-      reviewCount: parseInt(row.reviews) || 0,
-      photoUrl: row.photo || '/images/placeholder-sauna.jpg',
-      description: row.description || row.about || '',
-      province: (row.state || '').toLowerCase().replace(/\s+/g, '_'),
-      city: (row.city || '').toLowerCase().replace(/\s+/g, '_'),
-      country: row.country || 'Canada',
-      location: {
-        type: "Point",
-        coordinates: [
-          parseFloat(row.longitude) || 0,
-          parseFloat(row.latitude) || 0
-        ]
-      },
-      workingHours: row.working_hours || '',
-      popularTimes: row.popular_times || '',
-      featured: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }));
-    
-    // Insert all saunas into MongoDB
-    if (saunas.length > 0) {
-      const result = await saunasCollection.insertMany(saunas);
-      console.log(`${result.insertedCount} saunas imported successfully`);
-    } else {
-      console.log('No saunas to import');
-    }
-    
+    console.log(`Import completed: ${successCount} successful, ${errorCount} errors`);
+    process.exit(0);
   } catch (error) {
     console.error('Error importing saunas:', error);
-  } finally {
-    await client.close();
-    console.log('MongoDB connection closed');
+    process.exit(1);
   }
 }
 
+// Run the import function
 importSaunas();

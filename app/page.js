@@ -71,7 +71,12 @@ export default function Home() {
       
       setLoading(true);
       try {
-        const response = await fetch(`/api/saunas?province=${selectedProvince}&city=${selectedCity}`);
+        // Format province and city for the API query
+        // Replace spaces with hyphens for the URL
+        const formattedProvince = selectedProvince.replace(/\s+/g, '-');
+        const formattedCity = selectedCity.replace(/\s+/g, '-');
+        
+        const response = await fetch(`/api/saunas?province=${formattedProvince}&city=${formattedCity}`);
         const data = await response.json();
         setSaunas(data);
       } catch (error) {
@@ -162,10 +167,10 @@ export default function Home() {
 
         {/* Popular Cities Section */}
         {dataLoaded && (
-          <section className="w-full bg-[#1a1a1a] py-12 md:py-16">
+          <section className="w-full bg-secondary py-12 md:py-16">
             <div className="container px-4 md:px-6 max-w-7xl mx-auto">
               <h2 className="text-2xl font-bold tracking-tight mb-6 text-white">
-                Popular Cities for <span className="text-[#ad8f68]">Saunas</span>
+                Popular Cities for <span className="text-primary">Saunas</span>
               </h2>
               <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
                 {popularCities.map((city) => (
@@ -225,7 +230,7 @@ export default function Home() {
               <div className="hidden md:flex gap-6">
                 {/* Province column */}
                 <div className="w-1/4">
-                  <div className="border-l-2 border-base-300 pl-4">
+                  <div className="border-l-2 border-gray-light pl-4">
                     <h3 className="text-xl font-semibold mb-4">Provinces</h3>
                     <ul className="space-y-2">
                       {Object.keys(locationData).map((province) => (
@@ -234,8 +239,8 @@ export default function Home() {
                             onClick={() => setSelectedProvince(province)}
                             className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
                               selectedProvince === province 
-                                ? "bg-base-200 font-medium border-l-4 border-base-content" 
-                                : "hover:bg-base-100 hover:border-l-4 hover:border-base-300"
+                                ? "bg-base-200 font-medium border-l-4 border-primary" 
+                                : "hover:bg-base-100 hover:border-l-4 hover:border-gray-light"
                             }`}
                           >
                             {locationData[province].name}
@@ -249,7 +254,7 @@ export default function Home() {
                 {/* Cities column */}
                 {selectedProvince && locationData[selectedProvince] && (
                   <div className="w-1/4">
-                    <div className="border-l-2 border-base-300 pl-4">
+                    <div className="border-l-2 border-gray-light pl-4">
                       <h3 className="text-xl font-semibold mb-4">Cities in {locationData[selectedProvince].name}</h3>
                       <ul className="space-y-2">
                         {Object.keys(locationData[selectedProvince].cities)
@@ -265,8 +270,8 @@ export default function Home() {
                                 onClick={() => setSelectedCity(citySlug)}
                                 className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
                                   selectedCity === citySlug 
-                                    ? "bg-base-200 font-medium border-l-4 border-base-content" 
-                                    : "hover:bg-base-100 hover:border-l-4 hover:border-base-300"
+                                    ? "bg-base-200 font-medium border-l-4 border-primary" 
+                                    : "hover:bg-base-100 hover:border-l-4 hover:border-gray-light"
                                 }`}
                               >
                                 {locationData[selectedProvince].cities[citySlug].name}
@@ -281,7 +286,7 @@ export default function Home() {
                 {/* Saunas column */}
                 {selectedProvince && selectedCity && locationData[selectedProvince]?.cities[selectedCity] && (
                   <div className="w-2/4">
-                    <div className="border-l-2 border-base-300 pl-4">
+                    <div className="border-l-2 border-gray-light pl-4">
                       <h3 className="text-xl font-semibold mb-4">
                         Top Saunas in {locationData[selectedProvince].cities[selectedCity].name}
                       </h3>
@@ -381,10 +386,10 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="w-full bg-[#1a1a1a] py-12 md:py-16">
+        <section id="faq" className="w-full bg-secondary py-12 md:py-16">
           <div className="container px-4 md:px-6 max-w-7xl mx-auto">
             <h2 className="text-2xl font-bold tracking-tight mb-6 text-white">
-              Frequently Asked <span className="text-[#ad8f68]">Questions</span>
+              Frequently Asked <span className="text-primary">Questions</span>
             </h2>
             <FAQ textColor="text-white" />
           </div>
