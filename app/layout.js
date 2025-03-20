@@ -3,6 +3,7 @@ import { getSEOTags } from "@/libs/seo";
 import ClientLayout from "@/components/LayoutClient";
 import config from "@/config";
 import "./globals.css";
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -24,9 +25,14 @@ export default function RootLayout({ children }) {
 			data-theme={config.colors.theme}
 			className={font.className}
 		>
+			<head />
 			<body>
 				{/* ClientLayout contains all the client wrappers (Crisp chat support, toast messages, tooltips, etc.) */}
-				<ClientLayout>{children}</ClientLayout>
+				<ClientLayout>
+					{/* Add Google Analytics */}
+					<GoogleAnalytics GA_MEASUREMENT_ID={config.analytics.googleAnalyticsId} />
+					{children}
+				</ClientLayout>
 			</body>
 		</html>
 	);

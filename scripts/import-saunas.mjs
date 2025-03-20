@@ -158,7 +158,8 @@ async function importSaunas() {
         
         // Check if sauna already exists
         const existingSauna = await Sauna.findOne({ 
-          name: processedRecord.name
+          name: processedRecord.name,
+          city: processedRecord.city
         });
         
         if (existingSauna) {
