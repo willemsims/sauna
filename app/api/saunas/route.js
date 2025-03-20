@@ -16,14 +16,17 @@ function calculateWilsonScore(rating, reviewCount) {
   return numerator / denominator;
 }
 
+// Add export config to mark this route as dynamic
+export const dynamic = 'force-dynamic';
+
 export async function GET(request) {
   try {
     await dbConnect();
     
-    // Get query parameters
-    const { searchParams } = new URL(request.url);
-    const city = searchParams.get('city');
-    const province = searchParams.get('province');
+    // Get query parameters using searchParams instead of request.url
+    const url = new URL(request.url);
+    const city = url.searchParams.get('city');
+    const province = url.searchParams.get('province');
     
     // Build query
     const query = {};
@@ -46,7 +49,7 @@ export async function GET(request) {
     // Find saunas matching the query
     const saunas = await Sauna.find(query).select(
       'name address city province postalCode country phone website photoUrl rating reviewCount ' +
-      'traditional wood infrared hot_tub cold_plunge steam private public mobile gay'
+      'traditional wood infrared hot_tub cold_plunge steam private public mobile gay featured'
     );
     
     console.log(`Found ${saunas.length} saunas for query:`, query); // Debug the results

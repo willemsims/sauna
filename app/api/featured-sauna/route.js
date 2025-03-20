@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/libs/dbConnect';
 import Sauna from '@/models/Sauna';
 
+// Mark this route as dynamic
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     await dbConnect();

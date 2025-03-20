@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from 'next/navigation';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-export default function DesignSystem() {
+function DesignSystemContent() {
   const [activeTab, setActiveTab] = useState("colors");
+  const searchParams = useSearchParams();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -318,5 +320,13 @@ export default function DesignSystem() {
       
       <Footer />
     </div>
+  );
+}
+
+export default function DesignSystem() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DesignSystemContent />
+    </Suspense>
   );
 } 
