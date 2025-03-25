@@ -92,6 +92,9 @@ async function importSaunas() {
     let successCount = 0;
     let errorCount = 0;
     
+    // Keep track of processed sauna IDs
+    const processedSaunaIds = [];
+    
     // Show progress indicator
     console.log('Importing saunas...');
     
@@ -165,9 +168,13 @@ async function importSaunas() {
         if (existingSauna) {
           // Update existing sauna without logging
           await Sauna.findByIdAndUpdate(existingSauna._id, processedRecord);
+          // Add the ID to our processed list
+          processedSaunaIds.push(existingSauna._id);
         } else {
           // Create new sauna without logging
-          await Sauna.create(processedRecord);
+          const newSauna = await Sauna.create(processedRecord);
+          // Add the new ID to our processed list
+          processedSaunaIds.push(newSauna._id);
         }
         
         successCount++;
@@ -182,6 +189,13 @@ async function importSaunas() {
       }
     }
     
+    // Remove saunas that don't exist in the Excel file
+    console.log('Checking for saunas to remove...');
+    const removalResult = await Sauna.deleteMany({
+      _id: { $nin: processedSaunaIds }
+    });
+    
+    console.log(`Removed ${removalResult.deletedCount} saunas that weren't in the Excel file`);
     console.log(`Import completed: ${successCount} successful, ${errorCount} errors`);
     process.exit(0);
   } catch (error) {

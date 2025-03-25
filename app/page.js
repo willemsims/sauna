@@ -73,8 +73,8 @@ export default function Home() {
       try {
         // Format province and city for the API query
         // Replace spaces with hyphens for the URL
-        const formattedProvince = selectedProvince.replace(/\s+/g, '-');
-        const formattedCity = selectedCity.replace(/\s+/g, '-');
+        const formattedProvince = selectedProvince.replace(/\s+/g, '_');
+        const formattedCity = selectedCity.replace(/\s+/g, '_');
         
         const response = await fetch(`/api/saunas?province=${formattedProvince}&city=${formattedCity}`);
         const data = await response.json();
@@ -149,10 +149,9 @@ export default function Home() {
   };
 
   // Popular cities with saunas (for the featured section)
-  // This could also come from the API in the future
   const popularCities = [
-    { name: "Victoria", province: "british_columbia", slug: "victoria", image: "/images/cities/victoria.jpeg" },
-    { name: "Vancouver", province: "british_columbia", slug: "vancouver", image: "/images/cities/vancouver.jpeg" },
+    { name: "Victoria", province: "british columbia", slug: "victoria", image: "/images/cities/victoria.jpeg" },
+    { name: "Vancouver", province: "british columbia", slug: "vancouver", image: "/images/cities/vancouver.jpeg" },
     { name: "Toronto", province: "ontario", slug: "toronto", image: "/images/cities/toronto.jpeg" },
   ];
 
@@ -233,20 +232,28 @@ export default function Home() {
                   <div className="border-l-2 border-gray-light pl-4">
                     <h3 className="text-xl font-semibold mb-4">Provinces</h3>
                     <ul className="space-y-2">
-                      {Object.keys(locationData).map((province) => (
-                        <li key={province}>
-                          <button
-                            onClick={() => setSelectedProvince(province)}
-                            className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
-                              selectedProvince === province 
-                                ? "bg-base-200 font-medium border-l-4 border-primary" 
-                                : "hover:bg-base-100 hover:border-l-4 hover:border-gray-light"
-                            }`}
-                          >
-                            {locationData[province].name}
-                          </button>
-                        </li>
-                      ))}
+                      {Object.keys(locationData).map((provinceKey) => {
+                        const province = locationData[provinceKey];
+                        // Format the province name properly - capitalize each word
+                        const displayName = province.name.split(' ')
+                          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                          .join(' ');
+                        
+                        return (
+                          <li key={provinceKey}>
+                            <button
+                              onClick={() => setSelectedProvince(provinceKey)}
+                              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                                selectedProvince === provinceKey 
+                                  ? "bg-base-200 font-medium border-l-4 border-primary" 
+                                  : "hover:bg-base-100 hover:border-l-4 hover:border-gray-light"
+                              }`}
+                            >
+                              {displayName}
+                            </button>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 </div>
@@ -264,20 +271,28 @@ export default function Home() {
                             const cityB = locationData[selectedProvince].cities[b].name.toUpperCase();
                             return cityA.localeCompare(cityB);
                           })
-                          .map((citySlug) => (
-                            <li key={citySlug}>
-                              <button
-                                onClick={() => setSelectedCity(citySlug)}
-                                className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
-                                  selectedCity === citySlug 
-                                    ? "bg-base-200 font-medium border-l-4 border-primary" 
-                                    : "hover:bg-base-100 hover:border-l-4 hover:border-gray-light"
-                                }`}
-                              >
-                                {locationData[selectedProvince].cities[citySlug].name}
-                              </button>
-                            </li>
-                          ))}
+                          .map((cityKey) => {
+                            const city = locationData[selectedProvince].cities[cityKey];
+                            // Format the city name properly - capitalize each word
+                            const displayName = city.name.split(' ')
+                              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                              .join(' ');
+                            
+                            return (
+                              <li key={cityKey}>
+                                <button
+                                  onClick={() => setSelectedCity(cityKey)}
+                                  className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                                    selectedCity === cityKey 
+                                      ? "bg-base-200 font-medium border-l-4 border-primary" 
+                                      : "hover:bg-base-100 hover:border-l-4 hover:border-gray-light"
+                                  }`}
+                                >
+                                  {displayName}
+                                </button>
+                              </li>
+                            );
+                          })}
                       </ul>
                     </div>
                   </div>
@@ -322,11 +337,19 @@ export default function Home() {
                     onChange={(e) => setSelectedProvince(e.target.value)}
                   >
                     <option value="" disabled>Choose a province</option>
-                    {Object.keys(locationData).map((province) => (
-                      <option key={province} value={province}>
-                        {locationData[province].name}
-                      </option>
-                    ))}
+                    {Object.keys(locationData).map((provinceKey) => {
+                      const province = locationData[provinceKey];
+                      // Format the province name properly - capitalize each word
+                      const displayName = province.name.split(' ')
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                        .join(' ');
+                      
+                      return (
+                        <option key={provinceKey} value={provinceKey}>
+                          {displayName}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
                 
@@ -347,11 +370,19 @@ export default function Home() {
                           const cityB = locationData[selectedProvince].cities[b].name.toUpperCase();
                           return cityA.localeCompare(cityB);
                         })
-                        .map((citySlug) => (
-                          <option key={citySlug} value={citySlug}>
-                            {locationData[selectedProvince].cities[citySlug].name}
-                          </option>
-                        ))}
+                        .map((cityKey) => {
+                          const city = locationData[selectedProvince].cities[cityKey];
+                          // Format the city name properly - capitalize each word
+                          const displayName = city.name.split(' ')
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                            .join(' ');
+                          
+                          return (
+                            <option key={cityKey} value={cityKey}>
+                              {displayName}
+                            </option>
+                          );
+                        })}
                     </select>
                   </div>
                 )}

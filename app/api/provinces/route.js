@@ -5,7 +5,7 @@ export async function GET() {
   
   try {
     await client.connect();
-    const database = client.db('sauna-finder');
+    const database = client.db('sauna_tourist');
     const saunasCollection = database.collection('saunas');
     
     // Get unique provinces with their cities
@@ -30,13 +30,17 @@ export async function GET() {
       const formattedCities = {};
       province.cities.forEach(city => {
         formattedCities[city.slug] = {
-          name: city.name.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+          name: city.name.split(' ').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+          ).join(' ')
         };
       });
       
       return {
         [province._id]: {
-          name: province.name.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
+          name: province.name.split(' ').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+          ).join(' '),
           cities: formattedCities
         }
       };
