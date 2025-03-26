@@ -56,6 +56,14 @@ const Hero = ({ featuredSauna }) => {
     }
   };
 
+  // Helper function to properly capitalize multi-word names
+  const formatLocationName = (name) => {
+    if (!name) return '';
+    return name.split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   return (
     <section className="w-full py-12 md:py-24 bg-gradient-to-b from-base-200 to-base-100">
       <div className="container px-4 md:px-6 max-w-7xl mx-auto">
@@ -98,8 +106,7 @@ const Hero = ({ featuredSauna }) => {
                   </h3>
                   {featuredSauna.city && (
                     <p className="text-sm text-white/90 mt-1">
-                      {featuredSauna.city.charAt(0).toUpperCase() + featuredSauna.city.slice(1)}
-                      {featuredSauna.province && `, ${formatProvinceName(featuredSauna.province)}`}
+                      {featuredSauna.city.charAt(0).toUpperCase() + featuredSauna.city.slice(1)}, {formatLocationName(featuredSauna.province)}
                     </p>
                   )}
                 </div>

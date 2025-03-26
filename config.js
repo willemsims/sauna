@@ -2,7 +2,7 @@ import themes from "daisyui/src/theming/themes";
 
 const config = {
   // REQUIRED
-  appName: "SAUNA TOURIST",
+  appName: "Sauna Tourist",
   // REQUIRED: a short description of your app for SEO tags (can be overwritten)
   appDescription: "Find the best saunas near you in Canada. Browse Finnish, infrared, and steam saunas by location with ratings and reviews. Your ultimate Canadian sauna directory.",
   // REQUIRED (no https://, not trialing slash at the end, just the naked domain)
@@ -83,6 +83,45 @@ const config = {
     // REQUIRED — This color will be reflected on the whole app outside of the document (loading bar, Chrome tabs, etc..). By default it takes the primary color from your DaisyUI theme (make sure to update your the theme name after "data-theme=")
     // OR you can just do this to use a custom color: main: "#f37055". HEX only.
     main: themes["light"]["primary"],
+  },
+  // New centralized theme section for all colors
+  theme: {
+    primary: "#C8A27C", // Sauna wood color
+    "primary-dark": "#A67C52", // Darker wood color
+    secondary: "#1E1E1E", // Dark background color
+    neutral: "#FFFFFF", // White
+    accent: "#F5A623", // Accent color for highlights
+    // Gray variations
+    "gray-light": "#a0a0a0", // Light gray for backgrounds
+    gray: "#a0a0a0", // Medium gray
+    "gray-dark": "#9E9E9E", // Dark gray for text
+    // Text colors
+    "text-primary": "#333333", // Main text color
+    "text-secondary": "#666666", // Secondary text color
+    "text-light": "#FFFFFF", // Light text color for dark backgrounds
+    // Status colors
+    success: "#4CAF50", // Green for success messages
+    warning: "#FF9800", // Orange for warnings
+    error: "#F44336", // Red for errors
+    info: "#2196F3", // Blue for information
+    // Background colors
+    "bg-light": "#FFFFFF", // Light background
+    "bg-dark": "#1E1E1E", // Dark background
+    "bg-alt": "#F9F9F9", // Alternative light background
+    // Gray scale
+    gray: {
+      50: '#f9fafb',
+      100: '#f3f4f6',
+      200: '#e5e7eb',
+      300: '#d1d5db',
+      400: '#9ca3af',
+      500: '#6b7280',
+      600: '#4b5563',
+      700: '#374151',
+      800: '#1f2937',
+      900: '#111827',
+      950: '#030712',
+    },
   },
   auth: {
     // REQUIRED — the path to log in users. It's use to protect private routes (like /dashboard). It's used in apiClient (/libs/api.js) upon 401 errors from our API

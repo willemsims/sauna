@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import config from "@/config";
-import logo from "@/app/icon.png";
+import logo from "@/app/logo.png";
 import ExternalLink from "@/components/ExternalLink";
 
 // Add the Footer to the bottom of your landing page and more.
@@ -22,13 +22,10 @@ const Footer = () => {
                 src={logo}
                 alt={`${config.appName} logo`}
                 priority={true}
-                className="w-6 h-6"
-                width={24}
-                height={24}
+                className="h-8 w-auto"
+                height={32}
+                width={150}
               />
-              <strong className="font-extrabold tracking-tight text-base md:text-lg">
-                {config.appName}
-              </strong>
             </Link>
 
             <p className="text-sm text-gray-light">

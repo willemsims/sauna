@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import logo from "@/app/icon.png";
+import logo from "@/app/logo.png";
 import config from "@/config";
 
 const links = [
@@ -47,20 +47,25 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-base-200">
+    <header className="bg-gray">
       <nav
         className="container flex items-center justify-between px-8 py-4 mx-auto"
         aria-label="Global"
       >
-        {/* Your logo/name on large screens */}
+        {/* Your logo on large screens */}
         <div className="flex lg:flex-1">
           <button
             className="flex items-center gap-2 shrink-0"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             title={`${config.appName} homepage`}
           >
-            <Image src={logo} alt="Logo" className="w-8 h-8" />
-            <span className="font-extrabold text-lg">{config.appName}</span>
+            <Image 
+              src={logo} 
+              alt={config.appName} 
+              className="h-10 w-auto" 
+              height={40}
+              priority
+            />
           </button>
         </div>
 
@@ -109,7 +114,7 @@ const Header = () => {
         <div
           className={`fixed inset-y-0 right-0 z-10 w-full px-8 py-4 overflow-y-auto bg-base-100 sm:max-w-sm sm:ring-1 sm:ring-neutral/10`}
         >
-          {/* Your logo/name on small screens */}
+          {/* Your logo on small screens */}
           <div className="flex items-center justify-between">
             <button
               className="flex items-center gap-2 shrink-0"
@@ -119,8 +124,12 @@ const Header = () => {
               }}
               title={`${config.appName} homepage`}
             >
-              <Image src={logo} alt="Logo" className="w-8 h-8" />
-              <span className="font-extrabold text-lg">{config.appName}</span>
+              <Image 
+                src={logo} 
+                alt={config.appName} 
+                className="h-10 w-auto" 
+                height={40}
+              />
             </button>
             <button
               type="button"
