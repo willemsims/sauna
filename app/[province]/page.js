@@ -259,7 +259,7 @@ export default function ProvincePage() {
         ) : (
           <div className="container px-4 md:px-6 max-w-7xl mx-auto py-12">
             <h1 className="text-2xl font-bold mb-4">Province Not Found</h1>
-            <p>Sorry, we couldn't find information for this province.</p>
+            <p>Sorry, we couldn&apos;t find information for this province.</p>
             <Link href="/" className="text-primary hover:underline mt-4 inline-block">
               Return to Home
             </Link>
