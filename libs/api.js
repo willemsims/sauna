@@ -45,3 +45,51 @@ apiClient.interceptors.response.use(
 );
 
 export default apiClient;
+
+// Function to fetch all provinces
+export async function getAllProvinces() {
+  try {
+    const response = await fetch('/api/provinces');
+    const data = await response.json();
+    
+    // Transform the data into the format needed for the sitemap
+    return Object.keys(data).map(provinceKey => ({
+      slug: provinceKey.toLowerCase().replace(/\s+/g, '-'),
+      name: data[provinceKey].name || provinceKey,
+      updatedAt: new Date()
+    }));
+  } catch (error) {
+    console.error('Error fetching provinces:', error);
+    return [];
+  }
+}
+
+// Function to fetch all cities
+export async function getAllCities() {
+  try {
+    const response = await fetch('/api/provinces');
+    const data = await response.json();
+    
+    // Transform the data into the format needed for the sitemap
+    const cities = [];
+    
+    Object.keys(data).forEach(provinceKey => {
+      const provinceSlug = provinceKey.toLowerCase().replace(/\s+/g, '-');
+      
+      Object.keys(data[provinceKey].cities || {}).forEach(cityKey => {
+        cities.push({
+          slug: cityKey.toLowerCase().replace(/\s+/g, '-'),
+          name: data[provinceKey].cities[cityKey].name || cityKey,
+          provinceSlug: provinceSlug,
+          provinceName: provinceKey,
+          updatedAt: new Date()
+        });
+      });
+    });
+    
+    return cities;
+  } catch (error) {
+    console.error('Error fetching cities:', error);
+    return [];
+  }
+}

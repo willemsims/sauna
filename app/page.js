@@ -173,6 +173,22 @@ export default function Home() {
     { name: "Toronto", province: "ontario", slug: "toronto", image: "/images/cities/toronto.jpeg" },
   ];
 
+  // Keep the useEffect for client-side updates if needed
+  useEffect(() => {
+    // Update document title with the new format
+    document.title = "SaunaTourist - Find Saunas in Canada";
+    
+    // Find meta description tag or create it if it doesn't exist
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+    
+    metaDescription.content = "Discover the best saunas across Canada. Find traditional Finnish saunas, infrared saunas, and more in your city.";
+  }, []);
+
   return (
     <div className="flex min-h-screen flex-col">
       <Suspense>

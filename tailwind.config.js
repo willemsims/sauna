@@ -1,4 +1,5 @@
 const config = require('./config');
+const { colorPalette } = require('./config');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -9,41 +10,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        // Map all colors from config.theme
-        primary: config.theme.primary,
-        'primary-dark': config.theme['primary-dark'],
-        secondary: config.theme.secondary,
-        neutral: config.theme.neutral,
-        accent: config.theme.accent,
-        'gray-light': config.theme['gray-light'],
-        gray: config.theme.gray,
-        'gray-dark': config.theme['gray-dark'],
-        // Add gray scale for Tailwind's default gray-{n} classes
-        gray: {
-          50: '#f9fafb',
-          100: '#f3f4f6',
-          200: '#e5e7eb',
-          300: '#d1d5db',
-          400: '#9ca3af',
-          500: '#6b7280',
-          600: '#4b5563',
-          700: '#374151',
-          800: '#1f2937',
-          900: '#111827',
-          950: '#030712',
-        },
-        'text-primary': config.theme['text-primary'],
-        'text-secondary': config.theme['text-secondary'],
-        'text-light': config.theme['text-light'],
-        success: config.theme.success,
-        warning: config.theme.warning,
-        error: config.theme.error,
-        info: config.theme.info,
-        'bg-light': config.theme['bg-light'],
-        'bg-dark': config.theme['bg-dark'],
-        'bg-alt': config.theme['bg-alt'],
-      },
+      colors: colorPalette,
       fontFamily: {
         sans: ['var(--font-sans)'],
         display: ['var(--font-display)'],
@@ -67,7 +34,7 @@ module.exports = {
         appearFromRight: "appearFromRight 300ms ease-in-out",
         wiggle: "wiggle 1.5s ease-in-out infinite",
         popup: "popup 0.25s ease-in-out",
-        shimmer: "shimmer 3s ease-out infinite alternate",
+        shimmer: "shimmer 2s linear infinite",
       },
       keyframes: {
         opacity: {
@@ -101,15 +68,43 @@ module.exports = {
           "100%": { transform: "scale(1)", opacity: 1 },
         },
         shimmer: {
-          "0%": { backgroundPosition: "0 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
-          "100%": { backgroundPosition: "0% 50%" },
+          from: { backgroundPosition: "0 0" },
+          to: { backgroundPosition: "200% 0" },
         },
       },
     },
   },
-  plugins: [require("daisyui")],
   daisyui: {
-    themes: ["light", "dark"],
+    themes: [
+      {
+        saunatourist: {
+          "primary": colorPalette.primary,
+          "primary-focus": colorPalette["primary-dark"],
+          "primary-content": colorPalette["primary-content"],
+          "secondary": colorPalette.secondary,
+          "secondary-focus": colorPalette["secondary-dark"],
+          "secondary-content": colorPalette["secondary-content"],
+          "accent": colorPalette.accent,
+          "accent-focus": colorPalette["accent-dark"],
+          "accent-content": colorPalette["accent-content"],
+          "neutral": colorPalette.neutral,
+          "neutral-focus": colorPalette["neutral-dark"],
+          "neutral-content": colorPalette["neutral-content"],
+          "base-100": colorPalette["base-100"],
+          "base-200": colorPalette["base-200"],
+          "base-300": colorPalette["base-300"],
+          "base-content": colorPalette["base-content"],
+          "info": colorPalette.info,
+          "info-content": colorPalette["info-content"],
+          "success": colorPalette.success,
+          "success-content": colorPalette["success-content"],
+          "warning": colorPalette.warning,
+          "warning-content": colorPalette["warning-content"],
+          "error": colorPalette.error,
+          "error-content": colorPalette["error-content"],
+        },
+      },
+    ],
   },
+  plugins: [require("daisyui")],
 };

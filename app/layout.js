@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
 	return (
 		<html
 			lang="en"
-			data-theme={config.colors.theme}
+			data-theme="saunatourist"
 			className={font.className}
 		>
 			<head />

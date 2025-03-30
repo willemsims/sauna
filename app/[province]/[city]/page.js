@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import SaunaCard from "@/components/SaunaCard";
 import Link from "next/link";
 import SchemaMarkup from "@/components/SchemaMarkup";
+import { getCitySEOTags } from "@/libs/seo";
 
 export default function CityPage() {
   const params = useParams();
@@ -101,6 +102,24 @@ export default function CityPage() {
       }))
     }
   } : null;
+
+  // Add this inside your component to generate metadata
+  useEffect(() => {
+    if (provinceData && cityData) {
+      // Update document title with the new format
+      document.title = `Saunas in ${formatLocationName(cityData.name)}, ${formatLocationName(provinceData.name)} | SaunaTourist`;
+      
+      // Find meta description tag or create it if it doesn't exist
+      let metaDescription = document.querySelector('meta[name="description"]');
+      if (!metaDescription) {
+        metaDescription = document.createElement('meta');
+        metaDescription.name = 'description';
+        document.head.appendChild(metaDescription);
+      }
+      
+      metaDescription.content = `Discover the best saunas in ${formatLocationName(cityData.name)}, ${formatLocationName(provinceData.name)}. Find traditional Finnish saunas, infrared saunas, and more in ${formatLocationName(cityData.name)}.`;
+    }
+  }, [provinceData, cityData]);
 
   return (
     <div className="flex flex-col min-h-screen">

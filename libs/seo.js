@@ -6,67 +6,99 @@ import config from "@/config";
 // But I recommend to set the canonical URL for each page (export const metadata = getSEOTags({canonicalUrlRelative: "/"});)
 // See https://shipfa.st/docs/features/seo
 export const getSEOTags = ({
-  title,
-  description,
-  keywords,
-  openGraph,
-  canonicalUrlRelative,
-  extraTags,
+  title = "SaunaTourist - Find the Best Saunas in Canada",
+  description = "Discover the best saunas across Canada. Find traditional Finnish saunas, infrared saunas, and more in your city.",
+  keywords = "sauna, Finnish sauna, infrared sauna, Canada saunas, sauna near me, sauna benefits",
+  canonicalUrlRelative = "/",
+  ogImageUrl = "/og-image.jpg", // Default OG image
+  ogType = "website",
+  noIndex = false,
 } = {}) => {
-  // Create the canonical URL
-  const canonicalUrl = canonicalUrlRelative 
-    ? `https://${config.domainName}${canonicalUrlRelative}` 
-    : `https://${config.domainName}/`;
-    
+  // Construct the canonical URL
+  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN || "saunatourist.com";
+  const canonicalUrl = `https://${baseUrl}${canonicalUrlRelative}`;
+
   return {
-    // up to 50 characters (what does your app do for the user?) > your main should be here
-    title: title || config.appName,
-    // up to 160 characters (how does your app help the user?)
-    description: description || config.appDescription,
-    // some keywords separated by commas. by default it will be your app name
-    keywords: keywords || [config.appName],
-    applicationName: config.appName,
-    // set a base URL prefix for other fields that require a fully qualified URL (.e.g og:image: og:image: 'https://yourdomain.com/share.png' => '/share.png')
-    metadataBase: new URL(
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000/"
-        : `https://${config.domainName}/`
-    ),
-
-    openGraph: {
-      title: openGraph?.title || config.appName,
-      description: openGraph?.description || config.appDescription,
-      url: openGraph?.url || `https://${config.domainName}/`,
-      siteName: openGraph?.title || config.appName,
-      // If you add an opengraph-image.(jpg|jpeg|png|gif) image to the /app folder, you don't need the code below
-      // images: [
-      //   {
-      //     url: `https://${config.domainName}/share.png`,
-      //     width: 1200,
-      //     height: 660,
-      //   },
-      // ],
-      locale: "en_US",
-      type: "website",
-    },
-
-    twitter: {
-      title: openGraph?.title || config.appName,
-      description: openGraph?.description || config.appDescription,
-      // If you add an twitter-image.(jpg|jpeg|png|gif) image to the /app folder, you don't need the code below
-      // images: [openGraph?.image || defaults.og.image],
-      card: "summary_large_image",
-      creator: "@marc_louvion",
-    },
-
-    // Add canonical URL
+    // Basic metadata
+    title,
+    description,
+    keywords,
+    
+    // Robots
+    robots: noIndex ? "noindex, nofollow" : "index, follow",
+    
+    // Canonical URL
     alternates: {
       canonical: canonicalUrl,
     },
-
-    // If you want to add extra tags, you can pass them here
-    ...extraTags,
+    
+    // Open Graph
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: "Sauna Tourist",
+      images: [
+        {
+          url: ogImageUrl.startsWith("http") ? ogImageUrl : `https://${baseUrl}${ogImageUrl}`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      type: ogType,
+      locale: "en_US",
+    },
+    
+    // Twitter
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImageUrl.startsWith("http") ? ogImageUrl : `https://${baseUrl}${ogImageUrl}`],
+    },
   };
+};
+
+// Generate SEO metadata for province pages
+export const getProvinceSEOTags = (provinceName) => {
+  const formattedName = provinceName
+    ? provinceName
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+    : "";
+  
+  return getSEOTags({
+    title: `Saunas in ${formattedName} | SaunaTourist`,
+    description: `Find the best saunas in ${formattedName}, Canada. Browse our curated list of traditional Finnish saunas, infrared saunas, and more.`,
+    keywords: `sauna ${formattedName}, Finnish sauna ${formattedName}, infrared sauna ${formattedName}, ${formattedName} saunas, sauna near me ${formattedName}`,
+    canonicalUrlRelative: `/${provinceName.toLowerCase().replace(/\s+/g, '-')}`,
+  });
+};
+
+// Generate SEO metadata for city pages
+export const getCitySEOTags = (provinceName, cityName) => {
+  const formattedProvince = provinceName
+    ? provinceName
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+    : "";
+  
+  const formattedCity = cityName
+    ? cityName
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+    : "";
+  
+  return getSEOTags({
+    title: `Saunas in ${formattedCity}, ${formattedProvince} | SaunaTourist`,
+    description: `Discover the best saunas in ${formattedCity}, ${formattedProvince}. Find traditional Finnish saunas, infrared saunas, and more in ${formattedCity}.`,
+    keywords: `sauna ${formattedCity}, Finnish sauna ${formattedCity}, infrared sauna ${formattedCity}, ${formattedCity} saunas, sauna near me ${formattedCity}, ${formattedProvince} saunas`,
+    canonicalUrlRelative: `/${provinceName.toLowerCase().replace(/\s+/g, '-')}/${cityName.toLowerCase().replace(/\s+/g, '-')}`,
+  });
 };
 
 // Strctured Data for Rich Results on Google. Learn more: https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data

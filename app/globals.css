@@ -22,24 +22,15 @@ progress::-webkit-progress-value {
 }
 
 :root {
-  /* Semantic Color Palette */
-  --color-primary: #ad8f68;
-  --color-primary-dark: #8d7348;
-  --color-secondary: #1a1a1a;
-  --color-neutral: #f5f1eb;
-  --color-accent: #6b7280;
-  --color-base: #ffffff;
+  /* These will be automatically set by DaisyUI */
+  /* No need to manually define color variables */
   
-  /* Typography */
+  /* Only define non-color variables */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  
-  /* Spacing */
   --spacing-standard: 1rem;
   --spacing-large: 2rem;
   --spacing-xlarge: 4rem;
-  
-  /* Border Radius */
   --radius-standard: 0.5rem;
   --radius-large: 1rem;
 }
