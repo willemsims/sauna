@@ -124,10 +124,6 @@ export default function CityPage() {
                     ALL
                   </Link>
                   <span className="mx-3 text-gray-400">&gt;</span>
-                  <Link href="/canada" className="text-gray-600 hover:text-primary transition-colors">
-                    CANADA
-                  </Link>
-                  <span className="mx-3 text-gray-400">&gt;</span>
                   <Link 
                     href={`/${params.province}`} 
                     className="text-gray-600 hover:text-primary transition-colors"
@@ -152,7 +148,7 @@ export default function CityPage() {
                   {formatLocationName(cityData.name)}
                 </h1>
                 <p className="text-xl max-w-3xl text-gray-600 mb-8">
-                  Discover {saunas.length} sauna{saunas.length !== 1 ? 's' : ''} in {formatLocationName(cityData.name)}, {formatLocationName(provinceData.name)}.
+                  Discover the {saunas.length} best sauna{saunas.length !== 1 ? 's' : ''} in {formatLocationName(cityData.name)}, {formatLocationName(provinceData.name)}.
                 </p>
               </div>
             </section>

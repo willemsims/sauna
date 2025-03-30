@@ -1,7 +1,10 @@
+import Link from 'next/link';
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
 
 const Hero = ({ featuredSauna }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -28,24 +31,12 @@ const Hero = ({ featuredSauna }) => {
   const handleFeaturedSaunaClick = () => {
     if (!featuredSauna) return;
     
-    // Find the browse locations section
-    const browseSection = document.getElementById('browse-locations');
-    if (browseSection) {
-      // Set province and city in localStorage for the page to use on scroll
-      localStorage.setItem('selectedProvince', featuredSauna.province);
-      localStorage.setItem('selectedCity', featuredSauna.city);
-      
-      // Scroll to browse section
-      browseSection.scrollIntoView({ behavior: 'smooth' });
-      
-      // Dispatch a custom event that the page component can listen for
-      window.dispatchEvent(new CustomEvent('featuredSaunaSelected', {
-        detail: {
-          province: featuredSauna.province,
-          city: featuredSauna.city
-        }
-      }));
-    }
+    // Format the province and city slugs for the URL
+    const provinceSlug = featuredSauna.province.toLowerCase().replace(/\s+/g, '-');
+    const citySlug = featuredSauna.city.toLowerCase().replace(/\s+/g, '-');
+    
+    // Navigate to the city page
+    router.push(`/${provinceSlug}/${citySlug}`);
   };
 
   // Scroll to browse section

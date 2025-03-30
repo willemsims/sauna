@@ -26,6 +26,15 @@ export default function CountryPage() {
       .join(' ');
   };
 
+  // Add this function if it doesn't exist in the country page
+  const formatLocationName = (name) => {
+    if (!name) return "";
+    return name
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   // Fetch country data and provinces
   useEffect(() => {
     async function fetchCountryData() {
@@ -145,7 +154,7 @@ export default function CountryPage() {
                 {saunas.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {saunas.slice(0, 3).map((sauna) => (
-                      <div key={sauna._id} className="bg-white shadow-md rounded-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02]">
+                      <div key={sauna._id} className="bg-white shadow-md rounded-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
                         <div className="relative h-48">
                           <Image
                             src={sauna.photoUrl || '/images/placeholder-sauna.jpg'}
@@ -158,7 +167,7 @@ export default function CountryPage() {
                         <div className="p-4">
                           <h3 className="text-lg font-semibold mb-2">{sauna.name}</h3>
                           <p className="text-sm text-gray-600 mb-2">
-                            {sauna.city}, {formatCountryName(sauna.province)}
+                            {formatLocationName(sauna.city)}, {formatCountryName(sauna.province)}
                           </p>
                           {sauna.rating > 0 && (
                             <div className="flex items-center">

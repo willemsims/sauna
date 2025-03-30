@@ -30,10 +30,10 @@ const SaunaCard = ({ sauna }) => {
   // Check if the sauna has a valid rating and reviews
   const hasRating = sauna.rating > 0 && sauna.reviewCount > 0;
   
-  // Update the province display to capitalize all words
-  const formatProvinceName = (province) => {
-    if (!province) return '';
-    return province.split(' ')
+  // Format location names to capitalize all words
+  const formatLocationName = (name) => {
+    if (!name) return '';
+    return name.split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   };
@@ -79,7 +79,6 @@ const SaunaCard = ({ sauna }) => {
             fill
             style={{ objectFit: 'cover' }}
             sizes="(max-width: 768px) 100vw, 33vw"
-            className="transition-transform duration-500 hover:scale-110"
           />
         </figure>
         <div className="card-body p-4 w-2/3">
@@ -119,7 +118,7 @@ const SaunaCard = ({ sauna }) => {
                   clipRule="evenodd" 
                 />
               </svg>
-              <span>{sauna.city}, {formatProvinceName(sauna.province)}</span>
+              <span>{formatLocationName(sauna.city)}, {formatLocationName(sauna.province)}</span>
             </div>
             
             {sauna.phone && (
@@ -156,9 +155,9 @@ const SaunaCard = ({ sauna }) => {
                   href={sauna.website.startsWith('http') ? sauna.website : `https://${sauna.website}`} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-primary hover:underline truncate max-w-[200px]"
+                  className="text-primary hover:underline"
                 >
-                  {sauna.website.replace(/^https?:\/\/(www\.)?/, '')}
+                  Visit website
                 </a>
               </div>
             )}
