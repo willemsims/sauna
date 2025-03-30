@@ -15,17 +15,21 @@ export default function Home() {
   const [saunas, setSaunas] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [featuredSauna, setFeaturedSauna] = useState(null);
+  const [loading, setLoading] = useState(true);
   
   // Fetch provinces and cities data
   useEffect(() => {
     async function fetchLocationData() {
       try {
+        setLoading(true);
         const response = await fetch('/api/provinces');
         const data = await response.json();
         setLocationData(data);
         setDataLoaded(true);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching location data:', error);
+        setLoading(false);
       }
     }
     
