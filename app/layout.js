@@ -4,6 +4,7 @@ import ClientLayout from "@/components/LayoutClient";
 import config from "@/config";
 import "./globals.css";
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import SchemaMarkup from '@/components/SchemaMarkup';
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,19 @@ export const viewport = {
 export const metadata = getSEOTags();
 
 export default function RootLayout({ children }) {
+	const organizationSchema = {
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		"name": config.appName,
+		"url": config.siteUrl,
+		"logo": `${config.siteUrl}/logo.png`,
+		"sameAs": [
+			config.social?.twitter,
+			config.social?.facebook,
+			config.social?.instagram
+		].filter(Boolean)
+	};
+
 	return (
 		<html
 			lang="en"
@@ -31,6 +45,7 @@ export default function RootLayout({ children }) {
 				<ClientLayout>
 					{/* Add Google Analytics */}
 					<GoogleAnalytics GA_MEASUREMENT_ID={config.analytics.googleAnalyticsId} />
+					<SchemaMarkup schema={organizationSchema} />
 					{children}
 				</ClientLayout>
 			</body>

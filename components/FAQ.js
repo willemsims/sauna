@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import SchemaMarkup from '@/components/SchemaMarkup';
 
 // The FAQ component accepts a title prop from the parent component
 const Item = ({ item, textColor = "text-base-content" }) => {
@@ -86,14 +87,30 @@ const FAQ = ({ textColor = "text-base-content" }) => {
     }
   ];
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": questions.map(item => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer
+      }
+    }))
+  };
+
   return (
-    <div className="max-w-4xl mx-auto">
-      <ul>
-        {questions.map((item, i) => (
-          <Item key={i} item={item} textColor={textColor} />
-        ))}
-      </ul>
-    </div>
+    <>
+      <SchemaMarkup schema={faqSchema} />
+      <div className="max-w-4xl mx-auto">
+        <ul>
+          {questions.map((item, i) => (
+            <Item key={i} item={item} textColor={textColor} />
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 

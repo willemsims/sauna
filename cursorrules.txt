@@ -1,0 +1,99 @@
+You are an expert in Next.js, Tailwind CSS, Node.js, and MongoDB.
+
+Key Principles
+- Write concise, technical responses with accurate JavaScript/TypeScript examples.
+- Use functional, declarative programming. Avoid classes.
+- Prefer modularization and reusable components.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+- Use lowercase with dashes for directories (e.g., components/search-bar).
+- Favor named exports for components.
+- Ensure performance, scalability, and SEO optimization in all implementations.
+
+JavaScript/TypeScript
+- Use the `function` keyword for pure functions. Omit semicolons.
+- Use TypeScript for all code. Prefer interfaces over types.
+- Use ES6+ syntax (arrow functions, template literals, object spread, etc.).
+- Avoid unnecessary curly braces in single-line conditional statements.
+- Use early returns to prevent deeply nested conditions.
+- Implement robust error handling with clear logging.
+
+Error Handling and Validation
+- Prioritize error handling and edge cases:
+  - Handle errors and edge cases at the beginning of functions.
+  - Use early returns for error conditions to improve readability.
+  - Avoid unnecessary else statements; use if-return patterns.
+  - Implement proper error logging and user-friendly error messages.
+  - Use Zod for input validation.
+  - Implement try/catch for server-side error handling.
+
+React/Next.js
+- Use functional components and TypeScript interfaces.
+- Use declarative JSX.
+- Use `function` instead of `const` for components.
+- Implement responsive design with Tailwind CSS.
+- Use mobile-first approach for styling.
+- Optimize images with Next.js Image component (WebP format, lazy loading).
+- Minimize `useEffect` and `useState` by leveraging server components.
+- Use Next.js App Router and built-in data-fetching methods.
+- Use React Query (TanStack Query) for client-side API interactions.
+- Use Suspense for loading states where applicable.
+- Implement error boundaries for unexpected errors.
+
+Database & API
+- Use MongoDB with Mongoose for schema validation.
+- Structure database models efficiently for scalability.
+- Create index fields for frequently queried data.
+- Use Next.js API routes for backend logic (or a separate Node.js server if needed).
+- Use RESTful or GraphQL API patterns based on the use case.
+- Implement pagination and caching for large datasets.
+- Secure API endpoints with authentication where applicable.
+
+Search & Filtering
+- Use MongoDB Atlas Search or Algolia for fast text-based search.
+- Optimize database queries with indexing and aggregation pipelines.
+- Implement debouncing for search inputs.
+
+Hosting & Deployment
+- Use Vercel for frontend deployment.
+- Use MongoDB Atlas for cloud database hosting.
+- Optimize static site generation (SSG) and incremental static regeneration (ISR).
+- Set up environmental variables properly for secrets and API keys.
+
+Performance & Optimization
+- Minimize client-side JavaScript where possible.
+- Use server-side rendering (SSR) or static site generation (SSG) where applicable.
+- Enable caching and lazy loading for assets.
+- Reduce bundle size using code-splitting and tree shaking.
+
+SEO & Traffic Growth
+- Prioritize SEO to rank #1 on Google and maximize traffic.
+- The homepage should target "Sauna Near Me" as the primary keyword.
+- The URL structure should be:
+  - domain.com/STATE/CITY/
+  - Example: domain.com/ca/san-diego/ (ranking for "Best Sauna San Diego").
+- Each city/state page should:
+  - List sauna businesses in descending order based on Google review score + number of reviews.
+  - Omit descriptions unless necessary for SEO purposes.
+  - Use structured data (Schema.org) for local business listings.
+- Implement proper meta tags, Open Graph tags, and social previews.
+- Optimize pages for Core Web Vitals (LCP, CLS, FID).
+- Use Next.js Incremental Static Regeneration (ISR) for real-time updates without sacrificing performance.
+- Implement internal linking between city/state pages to enhance crawlability.
+
+Data Import & Processing
+- The directory will be built using an Excel file containing sauna business data.
+- The AI will process an XLSX file named `Outscraper-Outscraper-20250308011754s11_sauna.xlsx`.
+- Data should be structured into MongoDB for optimized queries.
+- A script will automate the import process, mapping fields appropriately.
+- Future updates should allow easy re-importing and updating of business listings.
+
+Key Conventions
+1. Rely on Next.js App Router for state changes.
+2. Prioritize Core Web Vitals (LCP, CLS, FID) for performance.
+3. Minimize `use client` usage:
+   - Prefer server components and SSR features.
+   - Use `use client` only for interactive UI components.
+   - Avoid using `use client` for data fetching or state management.
+
+Refer to Next.js documentation for Data Fetching, Rendering, and Routing best practices.
+

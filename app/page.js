@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import FAQ from "@/components/FAQ";
 import SaunaCard from "@/components/SaunaCard";
 import Hero from "@/components/Hero";
+import Link from "next/link";
 
 export default function Home() {
   const [locationData, setLocationData] = useState({});
@@ -234,10 +235,7 @@ export default function Home() {
                     <ul className="space-y-2">
                       {Object.keys(locationData).map((provinceKey) => {
                         const province = locationData[provinceKey];
-                        // Format the province name properly - capitalize each word
-                        const displayName = province.name.split(' ')
-                          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                          .join(' ');
+                        const provinceSlug = provinceKey.toLowerCase().replace(/\s+/g, '-');
                         
                         return (
                           <li key={provinceKey}>
@@ -249,7 +247,7 @@ export default function Home() {
                                   : "hover:bg-base-100 hover:border-l-4 hover:border-gray-light"
                               }`}
                             >
-                              {displayName}
+                              {province.name}
                             </button>
                           </li>
                         );
@@ -339,14 +337,11 @@ export default function Home() {
                     <option value="" disabled>Choose a province</option>
                     {Object.keys(locationData).map((provinceKey) => {
                       const province = locationData[provinceKey];
-                      // Format the province name properly - capitalize each word
-                      const displayName = province.name.split(' ')
-                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                        .join(' ');
+                      const provinceSlug = provinceKey.toLowerCase().replace(/\s+/g, '-');
                       
                       return (
                         <option key={provinceKey} value={provinceKey}>
-                          {displayName}
+                          {province.name}
                         </option>
                       );
                     })}
