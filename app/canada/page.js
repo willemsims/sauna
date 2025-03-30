@@ -220,7 +220,7 @@ export default function CanadaPage() {
                     Canada has a rich sauna culture influenced by its diverse population, particularly Finnish immigrants who brought their sauna traditions to the country. From traditional wood-fired Finnish saunas to modern infrared facilities, Canada offers a wide variety of sauna experiences across its provinces.
                   </p>
                   <p>
-                    The popularity of saunas in Canada has grown significantly in recent years as more people recognize the health benefits of regular sauna use, including stress reduction, improved circulation, and muscle relaxation. Many Canadians enjoy saunas year-round, but they're especially popular during the cold winter months.
+                    The popularity of saunas in Canada has grown significantly in recent years as more people recognize the health benefits of regular sauna use, including stress reduction, improved circulation, and muscle relaxation. Many Canadians enjoy saunas year-round, but they&apos;re especially popular during the cold winter months.
                   </p>
                   <p>
                     Whether you're looking for a public sauna in a major city, a private sauna experience at a spa, or a rustic sauna at a lakeside cottage, Canada has options to suit every preference and budget. Explore our directory to find the perfect sauna experience near you.

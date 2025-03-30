@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SaunaCard from "@/components/SaunaCard";
 
 const ProvinceSelector = ({ 
   locationData, 
