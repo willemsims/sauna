@@ -7,7 +7,6 @@ import Footer from "@/components/Footer";
 
 function DesignSystemContent() {
   const [activeTab, setActiveTab] = useState("colors");
-  const searchParams = useSearchParams();
 
   return (
     <div className="flex min-h-screen flex-col">

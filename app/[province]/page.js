@@ -11,7 +11,6 @@ import SchemaMarkup from "@/components/SchemaMarkup";
 
 export default function ProvincePage() {
   const params = useParams();
-  const router = useRouter();
   const [province, setProvince] = useState(null);
   const [cities, setCities] = useState([]);
   const [saunas, setSaunas] = useState([]);

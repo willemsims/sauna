@@ -2,7 +2,6 @@ import Script from 'next/script';
 import { getSEOTags } from '@/libs/seo';
 
 export default function Head() {
-  const seoTags = getSEOTags();
   
   return (
     <>

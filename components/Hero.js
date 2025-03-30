@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
@@ -18,14 +17,6 @@ const Hero = ({ featuredSauna }) => {
   // Default image if featured sauna image is not available
   const defaultImage = "https://images.pexels.com/photos/9638304/pexels-photo-9638304.jpeg";
   
-  // Format province name for display
-  const formatProvinceName = (province) => {
-    if (!province) return "";
-    return province
-      .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
   
   // Handle click on featured sauna
   const handleFeaturedSaunaClick = () => {

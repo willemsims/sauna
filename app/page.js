@@ -5,17 +5,14 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FAQ from "@/components/FAQ";
-import SaunaCard from "@/components/SaunaCard";
 import Hero from "@/components/Hero";
 import Link from "next/link";
-import ProvinceSelector from "@/components/ProvinceSelector";
 
 export default function Home() {
   const [locationData, setLocationData] = useState({});
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [saunas, setSaunas] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [featuredSauna, setFeaturedSauna] = useState(null);
   

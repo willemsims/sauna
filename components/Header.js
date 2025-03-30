@@ -4,28 +4,8 @@ import { useState, useEffect } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import config from "@/config";
 import logo from "/app/logo.png";
 
-const links = [
-  {
-    id: "browse-locations",
-    label: "Find a sauna",
-  },
-  // About and Blog links temporarily removed
-  // {
-  //   href: "/about",
-  //   label: "About",
-  // },
-  // {
-  //   href: "/blog",
-  //   label: "Blog",
-  // },
-  {
-    id: "faq",
-    label: "FAQ",
-  },
-];
 
 // A header with a logo on the left, links in the center (like Pricing, etc...)
 // The header is responsive, and on mobile, the links are hidden behind a burger button.

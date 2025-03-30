@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from 'react';
-import config from '@/config';
 
 const SchemaMarkup = ({ schema }) => {
   useEffect(() => {
