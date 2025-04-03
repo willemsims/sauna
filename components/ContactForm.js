@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 export default function ContactForm() {
@@ -13,6 +13,12 @@ export default function ContactForm() {
     message: ""
   });
   const [errors, setErrors] = useState({});
+  const [mounted, setMounted] = useState(false);
+
+  // Use useEffect to mark when component is mounted
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -83,6 +89,11 @@ export default function ContactForm() {
       setIsSubmitting(false);
     }
   };
+
+  // Return a loading state until the component is mounted
+  if (!mounted) {
+    return <div className="p-8 text-center">Loading form...</div>;
+  }
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-lg shadow-sm border border-gray-200">
