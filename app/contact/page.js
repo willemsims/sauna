@@ -98,7 +98,7 @@ export default function ContactPage() {
               Contact Us
             </h1>
             <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-              Have questions about saunas in Canada? Want to list your sauna? We're here to help!
+              Have questions about saunas in Canada? Want to list your sauna? We&apos;re here to help!
             </p>
           </div>
         </section>
@@ -117,7 +117,7 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <h3 className="text-xl font-semibold mb-2">Thank You!</h3>
-                  <p className="text-gray-600 mb-4">Your message has been sent successfully. We'll get back to you soon.</p>
+                  <p className="text-gray-600 mb-4">Your message has been sent successfully. We&apos;ll get back to you soon.</p>
                   <button 
                     onClick={() => setIsSubmitted(false)}
                     className="text-primary hover:underline"
