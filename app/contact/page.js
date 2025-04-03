@@ -1,3 +1,6 @@
+// Make this a static page without client components
+export const dynamic = 'force-static';
+
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
